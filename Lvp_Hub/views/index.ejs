@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <title>LVP HUB</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <!-- yaewon plz-->
+    <input id='connect' type="button" value="제발"></button>
+    <script type="text/javascript">
+        $(function() {
+            $('#connect').on('click', function(){
+                $.ajax({
+                    url: '/get',
+                    type: 'GET'
+                });
+            });
+        });
+    </script>
+    <!-- Page Wrapper -->
+    <div id = "wrapper">
+      <div id = "content-wrapper" >
+        <h1 class="h1">LVP HUB</h1>
+        <p style = "margin-bottom : 5rem;">Welcome to LVP HUB</p>
+        <form style = "margin-bottom: 5rem">
+          <div class= "input-group">
+            <input type="text" placeholder="Search for">
+            <div class="input-group-append ">
+              <button class=" btn btn-primary" type="button">검색
+                <i class="fas fa-search fa-sm"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+        <h2 class="h2">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h1>
+      </div>
+    </div>
+  </body>
+</html>
