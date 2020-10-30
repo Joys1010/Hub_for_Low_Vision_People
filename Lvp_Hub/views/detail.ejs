@@ -1,43 +1,131 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <title>LVP HUB</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <!-- Page Wrapper -->
-    <div id = "wrapper">
-      <div id = "content-wrapper" >
-        <h1 class="h1" style = "margin-bottom : 5rem;">Detail</h1>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <div id="content-wrapper">
+        <h1 class="h1" style="margin-bottom : 5rem;">Detail</h1>
         <!-- row1 start-->
-        <div class="row"style = "margin-bottom : 5rem;">
-          <!-- Area Chart -->
-          <div class="col-xl-13">
-            <div class="card shadow mb-4" style = "height: 300rem;">
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary" style = "font-size : 3rem;">Item</h6>
-              </div>
-              <!-- item Body -->
-              <div class="card-body">
-                <div class="chart-area-joys">
-                  <div class ="item_top">
-                    <div class="item_photo"></div>
-                    <div class="item_detail"></div>
-                  </div>
-                  <hr style="width="100%">
-                  <h2 class="h2">상세정보</h2>
-                  <hr style="width="100%">
+        <div class="row" style="margin-bottom : 5rem;">
+            <!-- Area Chart -->
+            <div class="col-xl-13">
+                <div class="card shadow mb-4" style="overflow: hidden; height: auto;">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem;">Item</h6>
+                    </div>
+                    <!-- item Body -->
+                    <div class="card-body" style = "overflow:hidden; height : auto;">
+                        <div class="chart-area-joys">
+                            <hr style="width:100%">
+                            <h2 class="h2">상세정보</h2>
+                            <hr style="width:100%">
+			    <% var i = 0; %>
+			<% detail_data.forEach(function(d) { %>
+                            <div class="item_top">
+                                <div class="item_photo">
+					<!--<a href=<%d.productimg%>>
+						<img class="image" src=<%=d.productimg%> />
+					</a>-->
+				</div>
+                                <div class="item_detail">
+					<a href=<%d.image%>>
+					<div id = "product_name" value ="baboa<%=i+1%>"></div>
+					</a>
+					<div id="product_cost">
+
+					</div>
+				</div>
+                            </div>
+
+
+
+			    	<a href=<%d.image%>>
+			    		<img class="img_url" src = <%=d.image%> />
+				</a>
+			    <% }) %>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-        <!--row1 done-->
     </div>
-  </body>
+    <!--row1 done-->
+</div>
+<div id="sidebar_wrapper" class="sidebar_wapper_joys">
+
+	<!--ul class 수정해야할듯-->
+    <!--<ul class="navbar-nav bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">-->
+    <ul class=" navbar-nav bg-gradient-primary sidebar_joys" id="buttonBar">
+        <div id="button_group" class="button_group">
+            <form action ="/" id="first_page" name="first_page" class="">
+                <button type = "submit" onclick="firstPage()" class="button_joys" style="margin-top : 2rem">첫 화면<br/>이동하기</button>
+                <script>
+                    function firstPage() {
+                        $('#first_page').submit();
+                    }
+                </script>
+            </form>
+
+	 
+    	<audio id="au" src="" controls autoplay style="visibility:hidden" >
+	          해당 브라우저는 audio 태그를 지원하지 않습니다. </audio>
+
+
+	    <button id="ocr_all" class="button_joys">전체<br/>이미지읽기</button>
+		
+    	    <script src = "./scripts.js"></script>
+	    <!--
+            <script>
+                var socket = io();
+                $('#ocr_all').on('click', function(){
+                    var img=[];
+                    $("#img_url").each(function() {  
+                        img.push(this.src);
+                    }); 
+                    socket.emit('ocrSource', img);
+                });
+
+		socket.on('arrCount', data=>{
+			console.log(data);
+		})
+                socket.on('ocrData', data=>{
+                    socket.emit('tts', data);
+                })
+
+            </script>
+	    -->
+            <form id="ocr_select" class="">
+                <button onclick="수행할_함수" class="button_joys">선택<br/>이미지읽기</button>
+            </form>
+            <form id="tts" class="">
+                <button onclick="수행할_함수" class="button_joys">마우스<br/>포인터읽기</button>
+            </form>
+            <form id="enlarge" class="">
+                <button onclick="수행할_함수" class="button_joys"> 확대</button>
+            </form>
+            <form id="lessen" class="">
+                <button onclick="수행할_함수" class="button_joys"> 축소</button>
+            </form>
+            <button type = "button" onclick = "goTop()" class="button_joys">위로<br/>이동하기</button>
+            <script>
+                function goTop(){
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>

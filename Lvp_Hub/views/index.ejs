@@ -1,43 +1,76 @@
 <!DOCTYPE html>
-<html lang = "en">
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
     <title>LVP HUB</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <!-- yaewon plz-->
-    <input id='connect' type="button" value="제발"></button>
-    <script type="text/javascript">
-        $(function() {
-            $('#connect').on('click', function(){
-                $.ajax({
-                    url: '/get',
-                    type: 'GET'
-                });
-            });
-        });
-    </script>
-    <!-- Page Wrapper -->
-    <div id = "wrapper">
-      <div id = "content-wrapper" >
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <div id="content-wrapper">
+
         <h1 class="h1">LVP HUB</h1>
-        <p style = "margin-bottom : 5rem;">Welcome to LVP HUB</p>
-        <form style = "margin-bottom: 5rem">
-          <div class= "input-group">
-            <input type="text" placeholder="Search for">
-            <div class="input-group-append ">
-              <button class=" btn btn-primary" type="button">검색
-                <i class="fas fa-search fa-sm"></i>
-              </button>
+        <p style="margin-bottom : 5rem;">Welcome to LVP HUB</p>
+        <form action="/search" accept-charset="utf-8" method="post" id="searchAction" name="searchAction"
+              style="margin-bottom: 5rem">
+            <div class="input-group">
+                <input type="text" class="search_word" id="search_word" name="search_word" placeholder="Search for">
+                <div class="input-group-append ">
+                    <button type="submit" class="btn btn-primary" onclick="searchKeyword();">검색</button>
+                    <script>
+                        function searchKeyword() {
+                            if ($('#search_word').val == '') {
+                                alert("검색어를 입력해주세요!");
+                            } else {
+                                $('#searchAction').submit();
+                            }
+                        }
+                    </script>
+                    <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
             </div>
-          </div>
+            <select name="search_category" form="searchAction" style = "margin-top : 1rem;  font-size : 4rem">
+                <option value="" disabled selected>LOTTE MALL</option>
+                <option value="emart">E-MART</option>
+                <option value="lotte">LOTTE MALL</option>
+                <option value="gmarket">GMARKET</option>
+            </select>
         </form>
-        <h2 class="h2">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h1>
-      </div>
+        <h2 class="h2">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h2>
+
     </div>
-  </body>
+    <div id="sidebar_joys" style = "background-color : #1e90ff; margin-top: 30px">
+        <div id="button_group" class="button_group">
+            <form id="ocr_all" class="" style = "margin-top : 1rem">
+                <button onclick="수행할 함수" class="button_joys">전체<br/>이미지<br/>읽기</button>
+            </form>
+            <form id="ocr_select" class="">
+                <button onclick="수행할 함수" class="button_joys">선택<br/>이미지<br/>읽기</button>
+            </form>
+            <form id="tts" class="">
+                <button onclick="수행할 함수" class="button_joys">마우스<br/>포인터<br/>읽기</button>
+            </form>
+            <form id="enlarge" class="">
+                <button onclick="수행할 함수" class="button_joys"> 확대</button>
+            </form>
+            <form id="lessen" class="">
+                <button onclick="수행할 함수" class="button_joys"> 축소</button>
+            </form>
+            <button type = "button" onclick = "goTop()" class="button_joys">위로<br/>이동하기</button>
+            <script>
+                function goTop(){
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+        </div>
+    </div>
+
+</div>
+</body>
 </html>

@@ -1,93 +1,171 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
-    <title>LVP HUB</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <!-- Page Wrapper -->
-    <div id = "wrapper">
-      <div id = "content-wrapper" >
-        <h1 class="h1">LVP HUB ITEMS</h1>
-        <p style = "margin-bottom : 5rem;">Search Result : sth</p>
-        <form style = "margin-bottom : 7rem;">
-          <div class= "input-group">
-            <input type="text" placeholder="Search for">
-            <div class="input-group-append ">
-              <button class=" btn btn-primary" type="button">검색
-                <i class="fas fa-search fa-sm"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-        <!-- form done-->
-        <!-- row1 start-->
-        <div class="row"style = "margin-bottom : 5rem;">
-          <!-- Area Chart -->
-          <div class="col-xl-14">
-            <div class="card shadow mb-4" style = "height : 50rem;">
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary" style = "font-size : 3rem;">Item</h6>
-              </div>
-              <!-- item Body -->
-              <div class="card-body">
-                <div class="chart-area-joys">
-                  <!-- 여기 원래 div 아니고 canvas-->
-                  <div class="item_photo"></div>
-                  <div class="item_detail"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--row1 done-->
-        <!-- row2 start-->
-        <div class="row"style = "margin-bottom : 5rem;">
-          <!-- Area Chart -->
-          <div class="col-xl-14">
-            <div class="card shadow mb-4" style = "height : 50rem;">
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary" style = "font-size : 3rem;">Item</h6>
-              </div>
-              <!-- item Body -->
-              <div class="card-body">
-                <div class="chart-area-joys">
-                  <!-- 여기 원래 div 아니고 canvas-->
-                  <div class="item_photo"></div>
-                  <div class="item_detail"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--row2 done-->
-        <!-- row3 start-->
-        <div class="row"style = "margin-bottom : 5rem;">
-          <!-- Area Chart -->
-          <div class="col-xl-14">
-            <div class="card shadow mb-4" style = "height : 50rem;">
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary" style = "font-size : 3rem;">Item</h6>
-              </div>
-              <!-- item Body -->
-              <div class="card-body">
-                <div class="chart-area-joys">
-                  <!-- 여기 원래 div 아니고 canvas-->
-                  <div class="item_photo"></div>
-                  <div class="item_detail"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--row3 done-->
-    </div>
-  </body>
+		<title>LVP HUB</title>
+		<link rel='stylesheet' href='/stylesheets/style.css'/>
+
+	</head>
+	<body>
+		<!-- Page Wrapper -->
+		<div id="wrapper">
+			<div id="content-wrapper">
+				<h1 class="h1">LVP HUB ITEMS</h1>
+				<br/> 
+				<div class="items">
+					<% data.forEach(function(e,idx) { %>
+					<!-- item1 start-->
+					<div id="item_one" class="row" style="margin-bottom : 5rem;">
+						<!-- Area Chart -->
+						<div class="col-xl-14">
+							<div class="card shadow mb-4" style="overflow: hidden; height: auto;">
+								<!-- Card Header - Dropdown -->
+								<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem;">Item</h6>
+								</div>
+								<!-- item Body -->
+								<div class="card-body">
+									<div class="chart-area-joys">
+										<div class="item_info">
+											<div class="item_photo">
+												<a href= <%=e.detail_url%> id="item_detail_url<%=idx%>">
+
+													<img class="photo" id="image_url" src = <%=e.img_url%>/>
+												</a>
+											</div>
+
+											<div class="detail_and_button">
+												<div class="item_detail" style = "font-size : 1.5rem">
+													<p> <%=e.name%> </p>
+													<p> <%=e.price%>원 </p>
+												</div>
+
+												<form action="/detail" method="post">
+													<button type="submit" id = "detail<%=idx%>" name="detailURL">상세설명보기</button>
+												</form>
+												<script>
+
+													document.getElementById('detail<%=idx%>').value = document.getElementById('item_detail_url<%=idx%>').getAttribute('href');
+
+												</script>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<% }) %>
+					<!--item1 done-->
+				</div>
+
+
+			</div>
+			<!--<div id="sidebar_joys" style = "background-color : dodgerblue; margin-top: 30px">
+				<div id="button_group" class="button_group">
+					<form action ="/" id="first_page" name="first_page" class="">
+						<button type = "submit" onclick="firstPage()" class="button_joys" style="margin-top : 2rem">첫 화면<br/>이동하기</button>
+						<script>
+							function firstPage() {
+								$('#first_page').submit();
+							}
+						</script>
+					</form>
+					<form id="ocr_all" class="">
+						<button onclick="수행할 함수" class="button_joys">전체<br/>이미지읽기</button>
+					</form>
+					<form id="ocr_select" class="">
+						<button onclick="수행할 함수" class="button_joys">선택<br/>이미지읽기</button>
+					</form>
+					<form id="tts" class="">
+						<button onclick="수행할 함수" class="button_joys">마우스<br/>포인터읽기</button>
+					</form>
+					<form id="enlarge" class="">
+						<button onclick="수행할 함수" class="button_joys"> 확대</button>
+					</form>
+					<form id="lessen" class="">
+						<button onclick="수행할 함수" class="button_joys"> 축소</button>
+					</form>
+					<button type = "button" onclick = "goTop()" class="button_joys">위로<br/>이동하기</button>
+					<script>
+						function goTop(){
+							document.documentElement.scrollTop = 0;
+						}
+					</script>
+				</div>
+			</div>-->
+			<div id="sidebar_wrapper" class="sidebar_wapper_joys">
+
+				        <!--ul class 수정해야할듯-->
+					    <!--<ul class="navbar-nav bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">-->
+					        <ul class=" navbar-nav bg-gradient-primary sidebar_joys" id="buttonBar">
+						        <div id="button_group" class="button_group">
+							            <form action ="/" id="first_page" name="first_page" class="">
+								                    <button type = "submit" onclick="firstPage()" class="button_joys" style="margin-top : 2rem">첫 화면<br/>이동하기</button>
+										                    <script>
+												                        function firstPage() {
+															                        $('#first_page').submit();
+																		                    }
+																				                    </script>
+																						                </form>
+
+
+        <audio id="au" src="" controls autoplay style="visibility:hidden" >
+	                  해당 브라우저는 audio 태그를 지원하지 않습니다. </audio>
+
+
+            <button id="ocr_all" class="button_joys">전체<br/>이미지읽기</button>
+
+            <script src = "./scripts.js"></script>
+				             <!--
+			             <script>
+					                     var socket = io();
+                $('#ocr_all').on('click', function(){
+			                    var img=[];
+			                    $("#img_url").each(function() {  
+						                            img.push(this.src);
+						                        }); 
+			                    socket.emit('ocrSource', img);
+			                });
+
+                socket.on('arrCount', data=>{
+			                        console.log(data);
+			                })
+                socket.on('ocrData', data=>{
+			                    socket.emit('tts', data);
+			                })
+
+            </script>
+	                -->
+			            <form id="ocr_select" class="">
+					                    <button onclick="수행할_함수" class="button_joys">선택<br/>이미지읽기</button>
+							                </form>
+									            <form id="tts" class="">
+											                    <button onclick="수행할_함수" class="button_joys">마우스<br/>포인터읽기</button>
+													                </form>
+															            <form id="enlarge" class="">
+																	                    <button onclick="수행할_함수" class="button_joys"> 확대</button>
+																			                </form>
+																					            <form id="lessen" class="">
+																							                    <button onclick="수행할_함수" class="button_joys"> 축소</button>
+									                  </form>
+									                  <button type = "button" onclick = "goTop()" class="button_joys">위로<br/>이동하기</button>
+								                   <script>
+								                       function goTop(){
+								                           document.documentElement.scrollTop = 0;
+								                       }
+								                   </script>
+								               </div>
+								           </div>
+		</div>
+
+	</body>
 </html>
+								       
+	</body>
+</html>
+

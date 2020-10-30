@@ -643,10 +643,12 @@ pre code {
   padding-left: 0.75rem;
 }
 
+
 .col-xl-13 {
+  overflow:hidden;
+  height:auto;
   position : relative;
   width: 90%;
-  height : 300rem;
 }
 .col-xl-14 {
   position : relative;
@@ -4528,13 +4530,22 @@ input[type="button"].btn-block {
 }
 
 .card-body {
+  display: inline-block;
   flex: 1 1 auto;
-  min-height: 100px;
+  height: 100%;
   padding: 1.25rem;
   flex-direction: row;
   justify-content: center;
+  vertical-align: middle;
 }
-
+.item_info {
+  display : flex;
+  width : 100%;
+  height : 90%;
+  padding : 1rem;
+  justify-content: center;
+  vertical-align: middle;
+}
 .item_top {
   display: flex;
   width : 100%;
@@ -4544,17 +4555,47 @@ input[type="button"].btn-block {
 }
 
 .item_photo {
+  display: inline-block;
   width : 50%;
-  height: 95%;
+  max-height: inherit;
   padding: 1rem;
-  margin: 1.5rem;
+  margin: auto;
 }
 
 .item_detail {
-  width : 50%;
-  height: 95%;
+  display: inline-block;
+  width : 100%;
+  max-height: inherit;
   padding: 1rem;
-  margin: 1.5rem;
+  margin: auto;
+}
+.detail_and_button{
+  width : 50%;
+  max-height: inherit;
+  padding: 1rem;
+  margin: auto;
+}
+.detail_button {
+  width : 20rem;
+  max-height: inherit;
+  padding: 1rem;
+  margin: auto;
+}
+
+.item_detail_long {
+  display: inline-block;
+  width : 100%;
+  height: inherit;
+  padding: 1rem;
+  margin: auto;
+  justify-content: center;
+}
+
+
+.photo {
+  width: 100%;
+  height: 500px;
+  display: block;
 }
 
 .card-title {
@@ -4724,7 +4765,7 @@ input[type="button"].btn-block {
   }
 }
 
-.accordion > .card {
+.z > .card {
   overflow: hidden;
 }
 
@@ -9821,10 +9862,12 @@ a:focus {
 #wrapper #content-wrapper {
   position : absoulte;
   margin : auto;
-  background-color: #f8f9fc;
-  width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
+  float: left;
+  width: calc(100% - 100px);
 }
+
 
 #wrapper #content-wrapper #content {
   flex: 1 0 auto;
@@ -9919,8 +9962,8 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background-color: #4e73df;
-  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-color: #20c9a6;
+  background-image: linear-gradient(180deg, #20c9a6 10%, #224abe 100%);
   background-size: cover;
 }
 
@@ -10186,6 +10229,22 @@ a:focus {
   width: 2rem;
 }
 
+
+#content_joys {
+  float: left;
+  width: calc(100% - 200px);
+  height:500px;
+}
+#sidebar_joys {
+  display : flex;
+  float: right;
+  width: 200px;
+  height:inherit;
+  border: 1px solid;
+}
+
+
+
 .topbar {
   height: 4.375rem;
 }
@@ -10342,6 +10401,58 @@ a:focus {
   width: 6.5rem;
   min-height: 100vh;
 }
+.sidebar_wrapper_joys {
+  display : flex;
+  justify-content: center;
+  align-items: center;
+  position : fixed;
+  float: left;
+  top:0;
+  right:0;
+  bottom:0;
+  padding:0;
+  height: 100%;
+  cursor:default;
+  overflow-y:auto;
+  z-index: 100;
+}
+
+.sidebar_joys {
+  width: 13rem;
+  min-height: 100vh;
+  position : fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  padding:0;
+  height: 100%;
+  cursor:default;
+  overflow-y:auto;
+  z-index: 100;
+}
+
+.button_group {
+  justify-content: center;
+  align-items: center;
+}
+
+.button_joys{
+  width : inherit;
+  font-size : 2rem;
+  margin-bottom : 1.5rem;
+  margin-left : 1rem;
+  margin-right : 1rem;
+  border : 1px;
+  background-color : white;
+  color : black;
+  padding : 5px;
+  border-radius : 3px;
+}
+
+.button_joys:hover {
+  color : white;
+  background-color : darkred;
+}
 
 .sidebar .nav-item {
   position: relative;
@@ -10497,6 +10608,7 @@ a:focus {
 @media (min-width: 768px) {
   .sidebar {
     width: 14rem !important;
+    height: inherit;
   }
   .sidebar .nav-item .collapse {
     position: relative;
@@ -10819,8 +10931,10 @@ a:focus {
 }
 .chart-area-joys {
   position: relative;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
+  margin: auto;
+  vertical-align: middle;
 }
 
 @media (min-width: 768px) {
