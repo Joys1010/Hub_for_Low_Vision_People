@@ -653,7 +653,7 @@ pre code {
 .col-xl-14 {
   position : relative;
   width : 90%;
-  height : 50rem;
+  height : auto;
 }
 
 .col {
@@ -4562,6 +4562,20 @@ input[type="button"].btn-block {
   margin: auto;
 }
 
+.item_photo_detail{
+  display: inline-block;
+  width : 500px;
+  height: 500px;
+  padding: 1rem;
+  margin: auto;
+}
+
+.photo_detail {
+  min-width : 100%;
+  min-height : 100%;
+  display : block;
+}
+
 .item_detail {
   display: inline-block;
   width : 100%;
@@ -4569,6 +4583,7 @@ input[type="button"].btn-block {
   padding: 1rem;
   margin: auto;
 }
+
 .detail_and_button{
   width : 50%;
   max-height: inherit;
@@ -9865,7 +9880,7 @@ a:focus {
   overflow-x: hidden;
   overflow-y: hidden;
   float: left;
-  width: calc(100% - 100px);
+  width: calc(100% - 300px);
 }
 
 
@@ -10411,6 +10426,7 @@ a:focus {
   right:0;
   bottom:0;
   padding:0;
+  width : 300px;
   height: 100%;
   cursor:default;
   overflow-y:auto;
@@ -10418,7 +10434,7 @@ a:focus {
 }
 
 .sidebar_joys {
-  width: 13rem;
+  width : 350px;
   min-height: 100vh;
   position : fixed;
   top:0;
@@ -10432,14 +10448,12 @@ a:focus {
 }
 
 .button_group {
-  justify-content: center;
-  align-items: center;
 }
 
 .button_joys{
   width : inherit;
-  font-size : 2rem;
-  margin-bottom : 1.5rem;
+  font-size : 2.5rem;
+  margin-bottom : 1rem;
   margin-left : 1rem;
   margin-right : 1rem;
   border : 1px;
@@ -10450,6 +10464,18 @@ a:focus {
 }
 
 .button_joys:hover {
+  color : white;
+  background-color : darkred;
+}
+.detail_joys{
+  width : 340px;
+  font-size:3rem;
+  background-color : white;
+  color : black;
+  border : 3px solid blue;
+}
+
+.detail_joys:hover{
   color : white;
   background-color : darkred;
 }

@@ -55,8 +55,14 @@ module.exports={
 						var last = stmt[1].split("\"");
                 				console.log(last[1]);
 						var source = {
+							//tmp
+							"product_name" : "test",
+							"main_img" : "https://contents.lotteon.com/search/item/LD/18/51/61/47/4_/0/LD185161474_0.jpg/dims/resizemc/360x360/",
 
-							"product_name" : for_ocr,
+							"price" : "1010101원",
+
+
+							//"product_name" : for_ocr,
 							"image" :last[1]
 						}
                 	     			ret.push(source);
@@ -66,7 +72,15 @@ module.exports={
 			else{
 				for(var i=0; results !=null&&i<results.length;i++){	
 					var source = {
-					"product_name" : for_ocr,
+					//tmp
+					"product_name" : "test",
+					"main_img" : "https://contents.lotteon.com/search/item/LD/18/51/61/47/4_/0/LD185161474_0.jpg/dims/resizemc/360x360/",
+
+					"price" : "1010101원",
+
+
+
+					//"product_name" : for_ocr,
 					"image" : results[i]
 					}
                 	     		ret.push(source);
