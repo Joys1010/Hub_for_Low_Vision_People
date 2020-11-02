@@ -27,6 +27,14 @@ def crawler_detail_gmarket(url):
 
     soup = BeautifulSoup(html, 'html.parser') 
 
+    main_img = soup.select("#container > div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on > a > img")
+    print(main_img[0]["src"])
+    
+    name = soup.select_one("#itemcase_basic > h1").get_text()
+    print(name)
+
+    price = soup.select_one("#itemcase_basic > p > span > strong").get_text()
+    print(price)
 
 
 
@@ -46,7 +54,7 @@ def crawler_detail_gmarket(url):
     img = soup.findAll("img")
     detail_img = []
     #
-    for i in range(0,len(img)-1): 
+    for i in range(0,len(img)): 
         detail_img.append(img[i]["src"])
         print(img[i]["src"])
     output = []
@@ -55,3 +63,5 @@ def crawler_detail_gmarket(url):
    # print(output)
     return detail_img
 crawler_detail_gmarket(sys.argv[1])
+#url = "http://item.gmarket.co.kr/Item?goodscode=1915402492"
+#crawler_detail_gmarket(url)

@@ -6,6 +6,7 @@ import os
 import time
 import pandas as pd
 import sys
+import re
 import csv
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
@@ -53,11 +54,18 @@ def crawler_gmarket(word):
     output =[]
 
 
-    for i in range (0,len(title)-1):
+    for i in range (0,len(title)):
         check_img = img[i]["src"]
         if check_img[0] == "/":
             check_img = check_img.replace('//gdimg','http://gdimg')
-        tmp = [word,title[i].text,price[i].text,check_img,url[i]["href"]]
+        price_post = price[i].text.replace('원','')
+        price_post = price_post.replace("\n","")
+        price_post = price_post.replace(",","")
+        numbers = re.findall("\d+",price_post) 
+
+        # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
+        tmp = [word ,title[i].text ,numbers[0] ,check_img ,url[i]["href"]]
+
         output.append( tmp)
 
     
@@ -92,7 +100,7 @@ def check_gmarket(word):
             output = crawler_gmarket(word)
             #return output
     if output is not None and len(output) >=0 :
-        for i in range(0,len(output)-1):
+        for i in range(0,len(output)):
             print(output[i])
 
 check_gmarket(sys.argv[1])

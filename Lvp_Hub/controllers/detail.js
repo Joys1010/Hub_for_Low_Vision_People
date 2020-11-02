@@ -45,7 +45,7 @@ module.exports={
                 try{
 	                PythonShell.run(cite, options, (err, results) => {
         	             if (err) throw err;
-			if(cite.indexOf('lotte')!=-1){
+		/*	if(cite.indexOf('lotte')!=-1){
 			
 				for(var i=0; results !=null&&i<results.length;i++){	
 					var arr= results[i].split(",");
@@ -55,33 +55,25 @@ module.exports={
 						var last = stmt[1].split("\"");
                 				console.log(last[1]);
 						var source = {
-							//tmp
-							"product_name" : "test",
-							"main_img" : "https://contents.lotteon.com/search/item/LD/18/51/61/47/4_/0/LD185161474_0.jpg/dims/resizemc/360x360/",
 
-							"price" : "1010101원",
-
-
-							//"product_name" : for_ocr,
+							"product_name" : for_ocr,
 							"image" :last[1]
 						}
                 	     			ret.push(source);
 					}
 				}
 			}
-			else{
-				for(var i=0; results !=null&&i<results.length;i++){	
+			else*/if(results != null && results.length >=3){
+				//console.log(results);
+
+				for(var i=3; results !=null&&i<results.length;i++){	
 					var source = {
-					//tmp
-					"product_name" : "test",
-					"main_img" : "https://contents.lotteon.com/search/item/LD/18/51/61/47/4_/0/LD185161474_0.jpg/dims/resizemc/360x360/",
-
-					"price" : "1010101원",
-
-
-
-					//"product_name" : for_ocr,
-					"image" : results[i]
+					"product_name" : for_ocr,
+					"main_img": results[0],
+					 "name" :results[1],
+					"price": results[2],
+					"image" : results[i],
+					"detail_url" : detail_url
 					}
                 	     		ret.push(source);
 			 	}

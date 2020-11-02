@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import sys
 import csv
+import re
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
@@ -40,8 +41,13 @@ def crawler_lotte(word):
     img_input =[]
     output =[]
 
-    for i in range (0,len(title)-1):
-        tmp = [word,title[i].text,price[i].text,img[i]["src"],url[i]["href"]]
+    for i in range (0,len(title)):
+        title_post = title[i].text.replace("\n","")
+        price_post = price[i].text.replace('원','')
+        price_post = price_post.replace("\n","")
+        price_post = price_post.replace(",","")
+        numbers = re.findall("\d+",price_post) 
+        tmp = [word,title_post , numbers[0],img[i]["src"],url[i]["href"]]
         output.append( tmp)
 
     
@@ -76,7 +82,7 @@ def check_lotte(word):
             output =  crawler_lotte(word)
             #return outpu
     if output is not None :
-        for i in range (0, len(output)-1):
+        for i in range (0, len(output)):
             print(output[i])
 
 

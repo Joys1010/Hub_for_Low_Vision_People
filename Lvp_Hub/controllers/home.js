@@ -13,7 +13,10 @@ module.exports = {
         var search_word = req.body.search_word;
         var ret = [];
         var json_output = [];
+	console.log(search_word);
         console.log(search_category);
+
+
         async function crawl_search(input) {
             // var search_word = req.body;
             //console.log(search_word);
@@ -60,7 +63,7 @@ module.exports = {
                                     "detail_url": a[9]
                                 }
                                 shopping_json.push(data);
-                		//console.log(data);
+                		console.log(data);
                             }
                             json_output.push(shopping_json);
                                // ret.push(results);

@@ -3,6 +3,7 @@ import urllib
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
+import re
 import pandas as pd
 import json
 import sys
@@ -44,16 +45,22 @@ def crawler_emart(word):
     
    # print(str(len(title))+":"+str(len(price))+":"+str(len(img)))
 
-    for i in range (0,len(title)-1):
+    for i in range (0,len(title)):
         
         check_img = img[i]["src"]
         check_url = url[i]["href"]
         if check_img[0] == "/":
             #check_img = check_img.replace('//item','item')
             check_img = 'http:'+check_img;
-        if check_url[0] !="h":
-            check_url = "http://shinsegaemall.ssg.com/" + check_url
-        tmp = [word,title[i].text,price[i].text,check_img,check_url]
+        if check_url[0]!="h":
+            check_url = "http://emart.ssg.com/" + check_url
+        price_post = price[i].text.replace('원','')
+        price_post = price_post.replace("\n","")
+        price_post = price_post.replace(",","")
+        numbers = re.findall("\d+",price_post) 
+        tmp = [word,title[i].text,numbers[0],check_img,check_url]
+
+        ###tmp = [word,title[i].text,price[i].text,check_img,check_url]
         output.append( tmp)
 
     data = pd.DataFrame(output) 
@@ -83,7 +90,7 @@ def check_emart(word):
             output =  crawler_emart(word)
             #return output
     if output is not None :
-        for i in range (0, len(output)-1):
+        for i in range (0, len(output)):
             print(output[i])
 
 check_emart(sys.argv[1])
