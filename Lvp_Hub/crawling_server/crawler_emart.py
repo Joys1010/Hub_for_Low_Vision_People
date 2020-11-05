@@ -13,6 +13,18 @@ import csv
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
+#DB
+import pymongo 
+import dns
+#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_test?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
+
+#db = client.capstone_test
+db = client.capstone
+emart_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
+
+
+
 def crawler_emart(word):
     url = 'http://emart.ssg.com/search.ssg?target=all&query='+word
 
@@ -58,6 +70,8 @@ def crawler_emart(word):
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
         numbers = re.findall("\d+",price_post) 
+        data = {"search_category":"emart", "search_word":word, "product_name":title[i].text, "price":numbers[0], "image":check_img, "detail":check_url}
+        emart_db.insert_one(data)
         tmp = [word,title[i].text,numbers[0],check_img,check_url]
 
         ###tmp = [word,title[i].text,price[i].text,check_img,check_url]

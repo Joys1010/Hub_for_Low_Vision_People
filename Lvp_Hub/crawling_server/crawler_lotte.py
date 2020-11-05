@@ -9,6 +9,22 @@ import re
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
+#DB
+import pymongo 
+import dns
+#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_test?retryWrites=true&w=majority")
+
+#db = client.capstone_test
+
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
+
+#db = client.capstone_test
+db = client.capstone
+lotte_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
+
+
+
+
 def crawler_lotte(word):
    # word="딸기"
     url = 'https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q='+word+'&mallId=1'
@@ -47,6 +63,9 @@ def crawler_lotte(word):
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
         numbers = re.findall("\d+",price_post) 
+        data = {"search_category":"lotte", "search_word":word, "product_name":title_post, "price":numbers[0], "image":img[i]["src"], "detail":url[i]["href"]}
+        lotte_db.insert_one(data)
+
         tmp = [word,title_post , numbers[0],img[i]["src"],url[i]["href"]]
         output.append( tmp)
 
@@ -63,6 +82,7 @@ def crawler_lotte(word):
     else:
         data.to_csv(csv_name, index=False, mode='a', encoding='utf-8-sig', header=False)
     return output
+
     #sys.argv[1]
 def check_lotte(word):
     output =[]
@@ -88,5 +108,5 @@ def check_lotte(word):
 
 
     print(output)
-#check_emart(sys.argv[1])
 check_lotte(sys.argv[1])
+#crawler_lotte(sys.argv[1])

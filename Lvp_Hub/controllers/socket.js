@@ -8,26 +8,143 @@ const { stringify } = require('querystring');
 module.exports = (server, app) =>{
 
     const io = SocketIO(server);
-    app.set('io', io);
+	app.set('io', io);
+	
+	
 
     io.on('connection', socket=>{
-        /*
-       socket.on('disconnect', ()=>{
-            console.log('클라이언트 연결 해제');
-            clearInterval(socket.interval);
+
+	   socket.on('imgSrc', async function(imgSrc){
+
+		console.log("test button clicked");
+        //console.log(req.body.imgSrc);
+        var base64Data = imgSrc;
+        
+        require("fs").writeFile("./captured/out.png", base64Data, 'base64', function(err) {
+            console.log(err);
         });
-        */
-        /*
-        socket.interval=setInterval(()=>{
-            socket.emit('hi', "안뇽 나는 서버!");
-        }, 1000 );
-        */
+
+        console.log("OCR gogo");
+		const vision = require('@google-cloud/vision');
+				
+		// Creates a client
+		const client = new vision.ImageAnnotatorClient();
+				
+		var fileName = './captured/out.png'
+		const [result] = await client.textDetection(fileName);
+		const detections = result.textAnnotations;
+					
+
+        if(detections[0] != undefined){
+            //console.log(detections[0]['description']);
+            var ttsData = { option: "capture", contents: detections[0]['description'] };
+			const fs = require('fs');
+			const util = require('util');
+			const textToSpeech = require('@google-cloud/text-to-speech');
+			const projectId='refreshing-mark-222309';
+			const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
+			const client =  new textToSpeech.TextToSpeechClient({
+			projectId:projectId,
+			keyFilename:keyfile
+			});
+
+			//폴더 만들어주기
+			const makeFolder = (dir)=>{  
+			if(!fs.existsSync(dir)){  
+			fs.mkdirSync(dir);    
+			}                         
+			}                           
+		
+			var ttsData = JSON.parse(JSON.stringify(ttsData));
+			
+			const contents = ttsData.contents;
+			//console.log(contents);
+			const request = {
+			input: {text: contents},
+			voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
+			audioConfig: {audioEncoding: 'MP3'}
+			};
+
+			var path;
+			try{
+			const [response] = await client.synthesizeSpeech(request);
+			
+			// Write the binary audio content to a local file
+			const w_File = util.promisify(fs.writeFile);
+			var folder_name;
+				folder_name = `./speaking/capture`
+				makeFolder(folder_name);
+				output_name =ttsData.name;
+				path = `${folder_name}/${detections[0]['description'][0]}.mp3`;
+			
+				//file exists
+				await w_File(path, response.audioContent, 'binary');
+			
+			}catch(err){
+			return;
+			}
+			socket.emit('captureAudioSrc', path);
+
+        }
+
+	   })
+
+	   socket.on('textTTS',async function(data){
+		searchData = JSON.parse(JSON.stringify(data));
+		var ttsData = { option: "search", search_word:searchData.search_word, img_url:"NULL", name:searchData.name, contents: searchData.contents };
+			const fs = require('fs');
+			const util = require('util');
+			const textToSpeech = require('@google-cloud/text-to-speech');
+			const projectId='refreshing-mark-222309';
+			const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
+			const client =  new textToSpeech.TextToSpeechClient({
+			projectId:projectId,
+			keyFilename:keyfile
+			});
+
+			//폴더 만들어주기
+			const makeFolder = (dir)=>{  
+			if(!fs.existsSync(dir)){  
+			fs.mkdirSync(dir);    
+			}                         
+			}                           
+		
+			var ttsData = JSON.parse(JSON.stringify(ttsData));
+			
+			const search_word =ttsData.search_word;
+			const contents = ttsData.contents;
+			const request = {
+			input: {text: contents},
+			voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
+			audioConfig: {audioEncoding: 'MP3'}
+			};
+
+			var path;
+			try{
+			const [response] = await client.synthesizeSpeech(request);
+			
+			// Write the binary audio content to a local file
+			const w_File = util.promisify(fs.writeFile);
+			var folder_name, output_name;
+				folder_name = `./speaking/search/${search_word}`
+				makeFolder(folder_name);
+				output_name =ttsData.name;
+			path = `${folder_name}/${output_name}.mp3`;
+			if (!(fs.existsSync(path))) {
+				//file exists
+				await w_File(path, response.audioContent, 'binary');
+			}
+			}catch(err){
+			return;
+			}
+			socket.emit('audioDone', path);
+	});
 
         socket.on('ocrSource', async function(data){
             console.log("Socket.on - ocrSource(server)");
             imgSegData = JSON.parse(JSON.stringify(data));
-	    product_name = imgSegData.product_name;
-	    var argPython = [imgSegData.count, imgSegData.img_url];
+			product_name = imgSegData.product_name;
+	    	var argPython = [imgSegData.count, imgSegData.img_url];
 
             //data 안에 src들 들어있다.
             //나중에 포문으로 감싸야댐
@@ -41,63 +158,63 @@ module.exports = (server, app) =>{
             PythonShell.run('./controllers/python/imgSeg.py', options, async function(err, results){
                 if (err) throw err;
                 //console.log(`results: ${results}`);
-		var maxCount = results.length;	
-		socket.emit('arrCount', parseInt(results[maxCount-1]));
+				var maxCount = results.length;	
+				socket.emit('arrCount', parseInt(results[maxCount-1]));
 
-		for(var cur = 0; cur < maxCount ; cur++){
-			if(cur == 0){
-				for(var imgName = parseInt(results[cur]) ; imgName > 0; imgName--){
+				for(var cur = 0; cur < maxCount ; cur++){
+					if(cur == 0){
+						for(var imgName = parseInt(results[cur]) ; imgName > 0; imgName--){
 					//OCR 돌린다.
 		                    console.log(imgName+"th OCR");
-                    const vision = require('@google-cloud/vision');
-        
-                    // Creates a client
-                    const client = new vision.ImageAnnotatorClient();
-        
-                    var fileName = './controllers/python/output/Img'+imgName+'.jpg'
-                    const [result] = await client.textDetection(fileName);
-                    const detections = result.textAnnotations;
-		    
-
-                    if(detections[0] != undefined){
-
-		    	    console.log(detections[0]['description']);
-			    var ttsData = { option: "detail", search_word:"NULL", img_url:product_name, name:imgName, contents: detections[0]['description'] };
-
-			    // mp3 파일로 저장
-			    const fs = require('fs');
-			    const util = require('util');
-			    const textToSpeech = require('@google-cloud/text-to-speech');
-			
-			    const projectId='refreshing-mark-222309';
-			    const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-			    const client =  new textToSpeech.TextToSpeechClient({
-				projectId:projectId,
-				keyFilename:keyfile
-			    });
-
-			    //폴더 만들어주기
-			    const makeFolder = (dir)=>{  
-			    if(!fs.existsSync(dir)){  
-				fs.mkdirSync(dir);    
-				}                         
-			    }                           
-			
-			    var ttsData = JSON.parse(JSON.stringify(ttsData));
+							const vision = require('@google-cloud/vision');
 				
-			    const option =ttsData.option;
-			    const search_word =ttsData.search_word;
-			    const img_url = ttsData.img_url;
-			    const contents = ttsData.contents;
-			    const name = ttsData.name;
+							// Creates a client
+							const client = new vision.ImageAnnotatorClient();
+				
+							var fileName = './controllers/python/output/Img'+imgName+'.jpg'
+							const [result] = await client.textDetection(fileName);
+							const detections = result.textAnnotations;
+					
 
-			    const request = {
-				input: {text: contents},
-				voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
-				audioConfig: {audioEncoding: 'MP3'},
-			    };
+                    		if(detections[0] != undefined){
+		    	    			console.log(detections[0]['description']);
+			    				var ttsData = { option: "detail", search_word:"NULL", img_url:product_name, name:imgName, contents: detections[0]['description'] };
 
-			    var path;
+								// mp3 파일로 저장
+								const fs = require('fs');
+								const util = require('util');
+								const textToSpeech = require('@google-cloud/text-to-speech');
+							
+								const projectId='refreshing-mark-222309';
+								const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
+
+								const client =  new textToSpeech.TextToSpeechClient({
+												projectId:projectId,
+												keyFilename:keyfile
+								});
+
+								//폴더 만들어주기
+								const makeFolder = (dir)=>{  
+									if(!fs.existsSync(dir)){  
+										fs.mkdirSync(dir);    
+									}                         
+			    				}                           
+			
+								var ttsData = JSON.parse(JSON.stringify(ttsData));
+								
+								const option =ttsData.option;
+								const search_word =ttsData.search_word;
+								const img_url = ttsData.img_url;
+								const contents = ttsData.contents;
+								const name = ttsData.name;
+
+								const request = {
+									input: {text: contents},
+									voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
+									audioConfig: {audioEncoding: 'MP3'},
+								};
+
+			    				var path;
 			    try{
 				const [response] = await client.synthesizeSpeech(request);
 				

@@ -18,14 +18,16 @@ app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile)
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({limit : "50mb"}));
+app.use(express.urlencoded({ extended: true ,limit : "50mb"}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.static(path.join(__dirname, 'public', 'script')));
 app.use(express.static(path.join(__dirname)));
 app.use(express.static(path.join(__dirname,'speaking')));
+app.use(express.static(path.join(__dirname,'speaking','search')));
+app.use(express.static(path.join(__dirname,'speaking','capture')));
 
 //일단 주석 처리
 app.use(router);

@@ -6,6 +6,10 @@
 		<meta content="width=device-width, initial-scale=1.0" name="viewport">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
+		        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
 		<title>LVP HUB</title>
 		<link rel='stylesheet' href='/stylesheets/style.css'/>
 
@@ -32,15 +36,15 @@
 									<div class="chart-area-joys">
 										<div class="item_info">
 											<div class="item_photo">
-												<a href= <%= e.detail_url %> id="item_detail_url<%= idx %>">
+												<a href= <%= e.detail %> id="item_detail_url<%= idx %>">
 
-													<img class="photo" id="image_url" src= <%= e.img_url %>/>
+													<img class="photo" id="image_url" src= <%= e.image %>/>
 												</a>
 											</div>
 
-											<div class="detail_and_button">
+											<div id = "id_for_tts <%= idx %>"class="detail_and_button">
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
-													<p> <%= e.name %> </p>
+													<p> <%= e.product_name %> </p>
 													<p> <%= e.price %>원 </p>
 												</div>
 
@@ -64,13 +68,9 @@
 					<% }) %>
 					<!--item1 done-->
 				</div>
-
-
+				<!--sidebar start-->
 				<div id="sidebar_wrapper" class="sidebar_wrapper_joys">
-
-					<!--ul class 수정해야할듯-->
 					<ul class="navbar-nav bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
-						<!--<ul class=" navbar-nav bg-gradient-primary sidebar_joys" id="buttonBar">-->
 						<div id="button_group" class="button_group">
 							<form action="/" id="first_page" name="first_page" class="">
 								<button type="submit" onclick="firstPage()" class="button_joys" style="margin-top : 1rem">첫 화면<br/>이동하기
@@ -82,21 +82,22 @@
 								</script>
 							</form>
 
+							<audio id="au" src="" preload style="height : 0px; width : 0px;">
+								해당 브라우저는 audio 태그를 지원하지 않습니다.
+							</audio>
+
 							<button id="ocr_all" class="button_joys">전체<br/>이미지읽기</button>
 
 							<script src="./scripts.js"></script>
-							<form id="ocr_select" class="">
-								<button onclick="수행할_함수" class="button_joys">선택<br/>이미지읽기</button>
-							</form>
-							<form id="tts" class="">
-								<button onclick="수행할_함수" class="button_joys">마우스<br/>포인터읽기</button>
-							</form>
-							<form id="enlarge" class="">
-								<button onclick="수행할_함수" class="button_joys"> 확대</button>
-							</form>
-							<form id="lessen" class="">
-								<button onclick="수행할_함수" class="button_joys"> 축소</button>
-							</form>
+
+							<button id ="ocr_select" class="button_joys">선택<br/>이미지읽기</button>
+
+							<button id ="over_tts" class="button_joys" onclick="tts_btn()">마우스<br/>포인터읽기</button>
+
+							<button id = "enlargement" class="button_joys"> 확대</button>
+
+							<button id = "reduction"  class="button_joys"> 축소</button>
+
 							<button type="button" onclick="goTop()" class="button_joys">위로<br/>이동하기</button>
 							<script>
 								function goTop() {
@@ -104,14 +105,16 @@
 								}
 							</script>
 						</div>
-						</ul>
+					</ul>   
 				</div>
-			</div>
-			<audio id="au" src="" controls autoplay style="">
-				해당 브라우저는 audio 태그를 지원하지 않습니다.
-			</audio>
+				<!--sidebar done
 
-		</div>
+				<audio id="au" src="" controls autoplay style="">
+					해당 브라우저는 audio 태그를 지원하지 않습니다.
+				</audio>-->
+			<script src = "./scripts.js"></script>
+
+			</div>
 
 	</body>
 </html>

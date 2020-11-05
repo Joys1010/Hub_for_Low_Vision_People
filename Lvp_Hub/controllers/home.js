@@ -1,101 +1,130 @@
 module.exports = {
-    index: function(req,res){
-        res.render('../views/index.ejs');
-    },
-    detailpg: function(req,res){
-        // console.log("url url"+req.body);
-        res.render('../views/detail.ejs');
-    },
-    searching : function(req,res){
-        console.log("hi");
+	index: function(req,res){
+		res.render('../views/index.ejs');
+	},
+	detailpg: function(req,res){
+		/* console.log("url url"+req.body); */
+		res.render('../views/detail.ejs');
+	},
+	searching : async function(req,res){
 
-        var search_category = req.body.search_category;
-        var search_word = req.body.search_word;
-        var ret = [];
-        var json_output = [];
-	console.log(search_word);
-        console.log(search_category);
+		var search_category = req.body.search_category;
+		var search_word = req.body.search_word;
+		var ret = [];
+
+		/*yae 여기 나중에 정식db에서 가져오고 그래야함! */
+		/* 1. url 속 db 이름 바꾸기
+		 *             2. db collection 맞춰주기, 각 쇼핑몰별로(search_category) */ 
+		console.log(search_word);
+		mongoose = require('mongoose');
+		/*db 이름 바꾸는 부분*/
+		mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_front_test?retryWrites=true&w=majority',
+			{ useNewUrlParser : true, useUnifiedTopology : true },
+			(err) => {
+				if(err) return console.error(err);
+			});
+
+		function getData(category, word){
+			return new Promise((resolve, reject) => {
+				mongoose.connection.on('open', function() {
+					console.log('Mongoose connected.');
+					console.log(word);
+
+					/*collection 바꾸는 부분*/
+					connection.db.collection("capstone", function(err, collection){
+						collection.find({"search_category":category} ,{"search_word":word}).sort("price", 1).toArray(function(err, data){
+							/*console.log(data); // it will print your collection data*/
+							resolve(data);
+						})
+					});
+				});
+			});
+		}
+		/*가져온 디비 데이터*/
+		let db_data = await getData(search_category, search_word);
+		console.log(db_data);
+
+		async function data_send(db_data) {
+			/*yae*/
+			var shopping_json = db_data;
+			/*data 넣기*/
+			function send_render(src){
+				res.render('../views/search.ejs', {data : src});
+			}
+			await send_render(shopping_json);
+		}
+
+		async function crawl_search(input) {
+
+			const {PythonShell} = require('python-shell');
+
+			let options = {
+				scriptPath: "./",
+				args: [input]
+			};
+
+			var mall;
+			if (search_category == 'emart') {
+				mall = './crawling_server/crawler_emart.py';
+			} else if (search_category == 'lotte') {
+				mall = './crawling_server/crawler_lotte.py';
+			} else if (search_category == 'gmarket') {
+				mall = './crawling_server/crawler_gmarket.py';
+			}
+			else {
+
+				mall = './crawling_server/crawler_lotte.py';
+			}
+			var undefine_error = false;
+
+			var shopping_json = []
+			function mall_crawl() {
+				return new Promise((resolve, reject) => {
+					try {
+						PythonShell.run(mall, options, (err, results) => {
+							if (err) throw err;
+							for (var i = 0;results!=null && i < results.length; i++) {
+								var a = results[i].split('\'');
+								var data = {
+									"search_category" : search_category,
+									"search_word" : search_word,
+									"product_name": a[3],
+									"price": a[5],
+									"image": a[7],
+									"detail": a[9]
+								}
+								shopping_json.push(data);
+							}
+							resolve();
+						});
+					} catch {
+						console.log('error running python code')
+						reject();
+					}
+				})
+
+			};
+			await mall_crawl();
+
+			function send_render_c(src){
 
 
-        async function crawl_search(input) {
-            // var search_word = req.body;
-            //console.log(search_word);
-            //start = new Date().getTime();
-            const {PythonShell} = require('python-shell');
+				res.render('../views/search.ejs', {data : src});
 
-            let options = {
-                scriptPath: "./",
-                args: [input]
-            };
+			}
+			await send_render_c(shopping_json);
+		}
 
-            var mall;
-            if (search_category == 'emart') {
-                mall = './crawling_server/crawler_emart.py';
-            } else if (search_category == 'lotte') {
-                mall = './crawling_server/crawler_lotte.py';
-            } else if (search_category == 'gmarket') {
-                mall = './crawling_server/crawler_gmarket.py';
-            }
+		if (db_data.length === 0) {
+
+			crawl_search(search_word);
+		}
 		else {
-	
-                mall = './crawling_server/crawler_lotte.py';
-            } 
-            //for문 돌면서 동기적으로 함수를 실행한다.
-            var undefine_error = false;
-
-            // jjeong remeber 크롤러 파일 이마트 참조해서 고치기
-
-	    
-            var shopping_json = []
-            function mall_crawl() {
-                // 동기적 처리를 위한 일~
-                return new Promise((resolve, reject) => {
-                    try {
-                        PythonShell.run(mall, options, (err, results) => {
-                            if (err) throw err;
-                            for (var i = 0;results!=null && i < results.length; i++) {
-                                var a = results[i].split('\'');
-                                var data = {
-                                    "search": a[1],
-                                    "name": a[3],
-                                    "price": a[5],
-                                    "img_url": a[7],
-                                    "detail_url": a[9]
-                                }
-                                shopping_json.push(data);
-                		console.log(data);
-                            }
-                            json_output.push(shopping_json);
-                               // ret.push(results);
-                            resolve();
-                        });
-                    } catch {
-                        console.log('error running python code')
-                        reject();
-                    }
-                })
-
-            };
-            await mall_crawl();
-
-            function send_render(src){
-
-
-                res.render('../views/search.ejs', {data : src});
-
-            }
-            await send_render(shopping_json);
-        }
-
-
-
-        //search_word를 기반으로 크롤링 함수로 보낼 예정
-        //결과를 search.ejs 에 보낼 것이다.
-        crawl_search(search_word);
-
-
-    }
+			data_send(db_data);
+		}
+	}
 };
 
 const express = require('express');
+const { connection } = require('mongoose');
 const router = express.Router();

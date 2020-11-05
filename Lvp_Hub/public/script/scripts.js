@@ -1,4 +1,4 @@
-const aud = document.querySelector("#au");
+var aud = document.querySelector("#au");
 
 // socket에서 count 받아오고, 그 array init 한 담에 tts 끝날때마다 배열 채워주기
 var count = 0;
@@ -6,9 +6,70 @@ var audioList;
 
 var index = 0;
 
-
 //socket
 var socket = io();
+var flag = false;
+
+$('#ocr_select').click((e) => { 
+	aud.setAttribute("src", "./speaking/wait_capture.mp3");
+	play_form();
+
+	flag = true;
+	console.log("drag clicked");
+	var initialPos_x, initialPos_y;
+	var finalPos_x, finalPos_y;
+
+	var dragSpace = new DragSelect({
+		
+		onDragStart: function(element) {
+			initialPos_x = event.pageX;
+			initialPos_y = event.pageY;
+		},
+		onDragMove: function(element){
+			finalPos_x = event.pageX;
+			finalPos_y = event.pageY;
+		}
+	});
+
+	
+	onmouseup = function(e) {
+		dragSpace.stop();
+		if(flag){
+		aud.pause();
+		aud.setAttribute("src", "./speaking/wait_capture_ocr.mp3");
+		play_form();
+		//console.log("initial : ",initialPos_x, " ", initialPos_y );
+		//console.log("final :" , finalPos_x, " ", finalPos_y);
+		
+		
+		html2canvas(document.body, {
+			x: Math.min(initialPos_x,finalPos_x),
+			y: Math.min(initialPos_y,finalPos_y),
+			width: Math.abs(finalPos_x-initialPos_x),
+			height: Math.abs(finalPos_y-initialPos_y)
+		}).then(
+		function (canvas) {
+			var entireImg = canvas.toDataURL("image/png");
+			entireImg = entireImg.replace("data:image/png;base64,", "");
+
+			console.log("html2canvas");
+
+			socket.emit('imgSrc', entireImg);
+			
+		}) 
+		}
+		flag =false; 
+	};
+	
+});
+socket.on('captureAudioSrc', data=>{
+	const path = data ;
+	console.log("capturedAduio");
+
+	aud.setAttribute("src",path);
+	play_form();
+})
+
 $('#ocr_all').on('click', function(){
 
 	    var count = 0;
@@ -49,12 +110,6 @@ socket.on('audioSource', data=>{
 socket.on('ocrData', data=>{
 	socket.emit('tts', data);
 })
-
-
-
-
-
-
 
 
 // a = 경로가 들어있는 배열
@@ -100,4 +155,68 @@ function init(){
 }
 
 init();
+
+var  btn_click = false;
+function speak_crawling(){
+    aud.setAttribute("src","./crawling.mp3");
+    play_form();
+}
+function play_form(){
+	console.log("jjeong tts play_form");
+    var playPromise = aud.play();
+    if (playPromise !== undefined) {
+            playPromise.then(function() {
+                                                                    // Automatic playback started!
+            }).catch(function(error) {
+                                                                    // Automatic playback failed.
+                                                                    // Show a UI element to let the user manually start playback.
+            });
+        }
+}
+
+
+function tts_btn(){
+    btn_click = !btn_click;
+    if(btn_click ==true){
+
+        aud.setAttribute("src",'./notice_text_tts.mp3'); // 스페치스바 제거시 - 바꿔~
+        play_form();
+        $('.detail_and_button').each(function() { 
+         //   console.log($(this).attr('id')) ;
+            var item_name = $(this).attr('id');
+             $(this).hover(
+            function(){
+		    if(btn_click){
+                aud.setAttribute("src","");
+                
+                var item_content = this.querySelector(".item_detail").textContent;
+                console.log(item_content);
+                //tts
+                var data = { search_word: "lotte" ,contents : item_content, name :item_name};
+                socket.emit('textTTS', data);
+                socket.on('audioDone', data=>{
+					const path = data ;
+
+                	aud.setAttribute("src",path);
+					play_form();
+					console.log("mouse over");
+                })
+		    }
+            },
+            function(){
+           
+                console.log("off");
+                aud.pause();
+                
+            }
+
+        );
+        });
+        
+
+
+       // ;
+    }
+}
+
 

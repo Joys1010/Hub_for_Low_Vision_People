@@ -11,6 +11,24 @@ import csv
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
+
+#DB
+import pymongo 
+import dns
+# 정은 언니용 capstone_test
+#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_test?retryWrites=true&w=majority")
+
+#db = client.capstone_test
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
+
+#db = client.capstone_test
+db = client.capstone
+
+gmarket_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
+
+
+
+
 def crawler_gmarket(word):
    # word="딸기"
     url = 'https://browse.gmarket.co.kr/search?keyword='+word
@@ -62,6 +80,8 @@ def crawler_gmarket(word):
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
         numbers = re.findall("\d+",price_post) 
+        data = {"search_category":"gmarket", "search_word":word, "product_name":title[i].text, "price":numbers[0], "image":check_img, "detail":url[i]["herf"]}
+        gmarket_db.insert_one(data)
 
         # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
         tmp = [word ,title[i].text ,numbers[0] ,check_img ,url[i]["href"]]
@@ -103,5 +123,5 @@ def check_gmarket(word):
         for i in range(0,len(output)):
             print(output[i])
 
+#crawler_gmarket(sys.argv[1])
 check_gmarket(sys.argv[1])
-#crawler_emart(sys.argv[1])
