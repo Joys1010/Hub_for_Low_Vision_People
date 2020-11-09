@@ -376,7 +376,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 2rem;
+  font-size: 5rem;
 }
 
 h3, .h3 {
@@ -4560,6 +4560,8 @@ input[type="button"].btn-block {
   max-height: inherit;
   padding: 1rem;
   margin: auto;
+  border : 3px solid #120a86;
+  border-radius : 5px;
 }
 
 .item_photo_detail{
@@ -4576,12 +4578,22 @@ input[type="button"].btn-block {
   display : block;
 }
 
-.item_detail {
+.item_detail_name {
   display: inline-block;
   width : 100%;
   max-height: inherit;
   padding: 1rem;
   margin: auto;
+
+}
+.item_detail_cost {
+  display: inline-block;
+  width : 80%;
+  background-color : #f6c23e;
+  max-height: inherit;
+  border : 3px solid #120a86;
+  border-radius : 5px;
+
 }
 
 .detail_and_button{
@@ -4637,7 +4649,7 @@ input[type="button"].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: #f8f9fc;
+  background-color: #f6c23e;
   border-bottom: 1px solid #e3e6f0;
 }
 
@@ -9671,7 +9683,7 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-  color: #4e73df !important;
+  color: #120a86 !important;
 }
 
 a.text-primary:hover, a.text-primary:focus {
@@ -9977,8 +9989,7 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background-color: #20c9a6;
-  background-image: linear-gradient(180deg, #20c9a6 10%, #224abe 100%);
+  background-color: #16BC7F;
   background-size: cover;
 }
 
@@ -10451,33 +10462,55 @@ a:focus {
 }
 
 .button_joys{
-  width : inherit;
+  width : 280px;
+  height : 130px;
   font-size : 2.5rem;
-  margin-bottom : 1rem;
+  margin-bottom : 0.8rem;
   margin-left : 1rem;
   margin-right : 1rem;
   border : 1px;
-  background-color : white;
-  color : black;
-  padding : 5px;
-  border-radius : 3px;
+  background-color : #8405ba;
+  color : white;
+  padding : 3px;
+  border : 3px solid black;
+  border-radius : 10px;
 }
 
 .button_joys:hover {
+  color : black;
+  background-color : #fb9a1c;
+}
+.button_detail_joys{
+  width : 280px;
+  height : 120px;
+  font-size : 2rem;
+  margin-bottom : 0.75rem;
+  margin-left : 1rem;
+  margin-right : 1rem;
+  border : 1px;
+  background-color : #8405ba;
   color : white;
-  background-color : darkred;
+  padding : 3px;
+  border : 3px solid black;
+  border-radius : 10px;
+}
+
+.button_detail_joys:hover {
+  color : black;
+  background-color : #fb9a1c;
 }
 .detail_joys{
   width : 340px;
   font-size:3rem;
-  background-color : white;
-  color : black;
-  border : 3px solid blue;
+  background-color : black;
+  color : white;
+  border : 3px solid black;
+  border-radius : 5px;
 }
 
 .detail_joys:hover{
-  color : white;
-  background-color : darkred;
+  color : black;
+  background-color : #fb9a1c;
 }
 
 .sidebar .nav-item {

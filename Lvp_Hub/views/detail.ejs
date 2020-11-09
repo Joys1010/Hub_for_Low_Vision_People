@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
+	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
+        <script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+	<title>LVP HUB</title>
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
 	</head>
 	<body>
@@ -20,19 +25,19 @@
 							<div class="card shadow mb-4" style="overflow: hidden; height: auto;">
 								<!-- Card Header - Dropdown -->
 								<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem;">Item</h6>
+									<h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem;">상품</h6>
 								</div>
 								<!-- item Body -->
 								<div class="card-body">
 									<div class="chart-area-joys">
-										<div class="item_info">
+										<div class="detailpg_item_info">
 											<div class="item_photo">
 												<a href= <%= detail_data[0].detail_url%> >
 													<img class="photo" id="image_url" src= <%= detail_data[0].main_img%>/>
 												</a>
 											</div>
 
-											<div class="detail_and_button">
+											<div class="detailpg_detail_and_button">
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
 													<p> <%= detail_data[0].name %> </p>
 													<p> <%= detail_data[0].price %> </p>
@@ -77,7 +82,7 @@
 				<ul class="navbar-nav bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
 					<div id="button_group" class="button_group">
 						<form action="/" id="first_page" name="first_page" class="">
-							<button type="submit" onclick="firstPage()" class="button_joys" style="margin-top : 1rem">첫 화면<br/>이동하기
+							<button type="submit" onclick="firstPage()" class="button_detail_joys" style="margin-top : 1rem">첫 화면<br/>이동하기
 							</button>
 							<script>
 								function firstPage() {
@@ -90,19 +95,17 @@
 							해당 브라우저는 audio 태그를 지원하지 않습니다.
 						</audio>
 
-						<button id="ocr_all" class="button_joys">전체<br/>이미지읽기</button>
-
-						<script src="./scripts.js"></script>
+						<button id="ocr_all" class="button_detail_joys">상세이미지<br/>전체읽기</button>
 						
-						<button id ="ocr_selected" class="button_joys">선택<br/>이미지읽기</button>
+						<button id ="ocr_select" class="button_detail_joys">선택영역<br/>이미지읽기</button>
 						
-						<button id ="over_tts" class="button_joys">마우스<br/>포인터읽기</button>
+						<button id ="over_tts" class="button_detail_joys" onclick="tts_btn()">마우스<br/>포인터읽기</button>
 				
-						<button id = "enlargement" class="button_joys"> 확대</button>
+						<button id = "enlargement" class="button_detail_joys"> 확대</button>
 				
-						<button id = "reduction"  class="button_joys"> 축소</button>
+						<button id = "reduction"  class="button_detail_joys"> 축소</button>
 					
-						<button type="button" onclick="goTop()" class="button_joys">위로<br/>이동하기</button>
+						<button type="button" onclick="goTop()" class="button_detail_joys">위로<br/>이동하기</button>
 						<script>
 							function goTop() {
 								document.documentElement.scrollTop = 0;
@@ -112,9 +115,9 @@
 				</ul>
 			</div>
 			<!--sidebar done-->
-			<audio id="au" src="" controls autoplay style="visibility:hidden">
-				해당 브라우저는 audio 태그를 지원하지 않습니다.
-			</audio>
+			<div style="width : 300px;height:50px;"></div>
+
+			<script src="./scripts.js"></script>
 
 		</div>
 
