@@ -43,10 +43,14 @@ $('#ocr_select').click((e) => {
 		
 		
 		html2canvas(document.body, {
+			allowTaint : false,
+			useCORS: true,
+			logging: true,
 			x: Math.min(initialPos_x,finalPos_x),
 			y: Math.min(initialPos_y,finalPos_y),
 			width: Math.abs(finalPos_x-initialPos_x),
-			height: Math.abs(finalPos_y-initialPos_y)
+			height: Math.abs(finalPos_y-initialPos_y),
+
 		}).then(
 		function (canvas) {
 			var entireImg = canvas.toDataURL("image/png");
@@ -58,6 +62,29 @@ $('#ocr_select').click((e) => {
 			
 		}) 
 		}
+	
+		/*
+		html2canvas(document.body, {
+			allowTaint: true,
+			useCORS: true,
+			useCORS: true,
+			x: Math.min(initialPos_x,finalPos_x),
+			y: Math.min(initialPos_y,finalPos_y),
+			width: Math.abs(finalPos_x-initialPos_x),
+			height: Math.abs(finalPos_y-initialPos_y),
+			onrendered: function (canvas) {
+	
+				var entireImg = canvas.toDataURL("image/png");
+				entireImg = entireImg.replace("data:image/png;base64,", "");
+
+				console.log("html2canvas");
+
+				socket.emit('imgSrc', entireImg);
+			}
+
+		})
+		}
+		*/
 		flag =false; 
 	};
 	

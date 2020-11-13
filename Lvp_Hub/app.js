@@ -4,10 +4,11 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var cors = require('cors');
 
 
 const app = express();
+app.use(cors());
 
 //일단 주석 처리
 var router = require('./routes/routes');
@@ -16,6 +17,8 @@ var router = require('./routes/routes');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile)
+
+
 
 app.use(logger('dev'));
 app.use(express.json({limit : "50mb"}));
