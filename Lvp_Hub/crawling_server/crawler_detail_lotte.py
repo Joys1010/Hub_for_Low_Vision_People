@@ -10,12 +10,12 @@ from selenium.webdriver.chrome.options import Options
 
 
 def crawler_detail_lotte(url):
-    driver = webdriver.Chrome('./chromedriver') # 설치 폴더에 주의합니다. 
+    #driver = webdriver.Chrome('./chromedriver') # 설치 폴더에 주의합니다. 
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    #driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
+    driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
     #remember
     driver.get(url) 
     time.sleep(3) 

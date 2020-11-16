@@ -5,10 +5,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-
+var proxy = require('html2canvas-proxy');
 
 const app = express();
-app.use(cors());
+//app.use(cors());
+app.use("/search", proxy());
+app.use("/detail", proxy());
 
 //일단 주석 처리
 var router = require('./routes/routes');
