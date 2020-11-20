@@ -42,7 +42,6 @@ module.exports = {
 		/*가져온 디비 데이터*/
 		let db_data = await getData(search_category, search_word);
 		mongoose.connection.close();
-
 		async function data_send(db_data) {
 			/*yae*/
 			var shopping_json = db_data;
