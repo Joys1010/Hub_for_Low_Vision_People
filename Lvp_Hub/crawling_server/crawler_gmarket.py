@@ -80,7 +80,7 @@ def crawler_gmarket(word):
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
         numbers = re.findall("\d+",price_post) 
-        data = {"search_category":"gmarket", "search_word":word, "product_name":title[i].text, "price":numbers[0], "image":check_img, "detail":url[i]["herf"]}
+        data = {"search_category":"gmarket", "search_word":word, "product_name":title[i].text, "price":numbers[0], "image":check_img, "detail":url[i]["href"]}
         gmarket_db.insert_one(data)
 
         # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 

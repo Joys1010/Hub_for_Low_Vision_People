@@ -14,13 +14,13 @@
 			<div id="content-wrapper">
 
 				<h1 class="h1">LVP HUB</h1>
-				<p style="margin-bottom : 5rem;">Welcome to LVP HUB</p>
+				<p style="margin-bottom : 0.5rem; color : black;">Welcome to LVP HUB</p>
 				<form action="/search" accept-charset="utf-8" method="post" id="searchAction" name="searchAction"
 										  style="margin-bottom: 5rem">
 					<div class="input-group">
-						<input type="text" class="search_word" id="search_word" name="search_word" placeholder="Search for">
+						<input type="text" class="search_word" id="search_word" name="search_word" placeholder="Search for" style = "color : black; font-weight : bold;">
 						<div class="input-group-append ">
-							<button type="submit" class="btn btn-primary" onclick="searchKeyword();">검색</button>
+							<button type="submit" class="btn-primary-joys" style = "font-weight : bold;"onclick="searchKeyword();">검색</button>
 							<script>
 								function searchKeyword() {
 									if ($('#search_word').val == '') {
@@ -34,14 +34,36 @@
 							</button>
 						</div>
 					</div>
-					<select name="search_category" form="searchAction" style="margin-top : 1rem;  font-size : 4rem">
+					<select name="search_category" form="searchAction" style= "font-weight : bold; margin-top : 2rem; margin-bottom : 2rem;  font-size : 4rem">
 						<option value="" disabled selected>LOTTE MALL</option>
 						<option value="emart">E-MART</option>
 						<option value="lotte">LOTTE MALL</option>
 						<option value="gmarket">GMARKET</option>
 					</select>
+					<br/>
+
+					<div class ="check_joys">
+						<input id="emart" type="checkbox">
+						<label for ="emart">
+							<span> EMART </span>
+						</label>
+					<!--</div>
+
+					<div class ="check_joys">-->
+						<input id="lotte" type="checkbox">
+						<label for ="lotte">
+							<span> LOTTE MALL </span>
+						</label>
+					<!--</div>
+					<div class ="check_joys">-->
+						<input id="gmarket" type="checkbox">
+						<label for ="gmarket">
+							<span> GMARKET </span>
+						</label>
+					</div>
+						
 				</form>
-				<h2 class="h2">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h2>
+				<h3 class="h3">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h3>
 
 			</div>
 		</div>

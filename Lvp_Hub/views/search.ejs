@@ -20,7 +20,7 @@
 			<div id="content-wrapper">
 				<h1 class="h1">LVP HUB ITEMS</h1>
 				<br/>
-				<h2 class="h2"> 검색어 : <%= data[0].search_word %> </h2>
+				<h2 class="h2" style = "font-weight : bold;"> 검색어 : <%= data[0].search_word %> </h2>
 				<br/>
 				<div class="items">
 					<% data.forEach(function(e, idx) { %>
@@ -31,7 +31,7 @@
 							<div class="card shadow mb-4" style="overflow: hidden; height: auto;">
 								<!-- Card Header - Dropdown -->
 								<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem;">상품</h6>
+									<h6 class="m-0 font-weight-bold text-primary" style="font-size : 3rem; font-weight : bold"> 상품 <%= idx+1 %> </h6>
 								</div>
 								<!-- item Body -->
 								<div class="card-body">
@@ -47,6 +47,7 @@
 											<div id = "id_for_tts <%= idx %>" class="detail_and_button">
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
 													<p> <%= e.product_name %> </p>
+													<p> 리뷰 : 333 개 </p>
 													<p style="background-color:#f6c23e;"> <%= e.price %>원 </p>
 												</div>
 												<!--<div>
@@ -61,7 +62,7 @@
 												<p> </p>-->
 
 												<form action="/detail" method="post">
-													<button class = "detail_joys" type="submit" id="detail<%= idx %>" name="detailURL">상세설명보기</button>
+													<button class = "detail_joys" type="submit" id="detail<%= idx %>" name="detailURL" style="font-weight : bold;">상세설명보기</button>
 												</form>
 												<script>
 
@@ -103,9 +104,9 @@
 
 							<button id ="over_tts" class="button_joys" onclick="tts_btn()">마우스<br/>포인터읽기</button>
 
-							<button id = "enlargement" class="button_joys"> 확대</button>
+							<button id = "in_btn" class="button_joys" onclick="zoomIn()"> 확대</button>
 
-							<button id = "reduction"  class="button_joys"> 축소</button>
+							<button id = "out_btn"  class="button_joys" onclick="zoomOut()"> 축소</button>
 
 							<button type="button" onclick="goTop()" class="button_joys">위로<br/>이동하기</button>
 							<script>
@@ -125,9 +126,6 @@
 		
 			</div>
 	</body>
-</html>
-
-</body>
 </html>
 
 

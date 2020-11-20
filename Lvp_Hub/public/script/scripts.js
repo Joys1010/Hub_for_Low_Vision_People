@@ -245,4 +245,70 @@ function tts_btn(){
     }
 }
 
+ //joys
+var nowZoom = 100;
+
+function zoomIn()
+{
+
+	var Page = document.querySelector("body");
+	nowZoom = nowZoom + 10;
+	if (nowZoom >= 500) nowZoom = 500;
+	var zoom = nowZoom + '%';
+	Page.style.zoom = zoom;
+
+	return false;
+}
+
+function zoomOut()
+{
+	
+	var Page = document.querySelector("body");
+	nowZoom = nowZoom - 10;
+	if (nowZoom <= 70) nowZoom = 70;
+	var zoom = nowZoom + '%';
+	Page.style.zoom = zoom;
+
+	return false;
+}
+
+
+
+/*function zoomIn()
+{
+	console.log("zoomin");
+	  var Page = document.querySelector("body");
+
+	  var zoom = parseInt(Page.style.zoom) + 10 +'%'
+	  Page.style.zoom = zoom;
+	  return false;
+}
+
+function zoomOut()
+{
+
+	console.log("zoomout");
+	  var Page = document.querySelector("body");
+	  var zoom = parseInt(Page.style.zoom) - 10 +'%'
+	  Page.style.zoom = zoom;
+	  return false;
+}*/
+
+
+/*function init(){
+	    in_btn.addEventListener("click",zoomIn);
+	    out_btn.addEventListener("click",zoomOut);
+}
+
+init();*/
+
+
+
+
+
+
+
+
+
+
 

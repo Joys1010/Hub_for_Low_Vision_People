@@ -65,6 +65,7 @@ module.exports={
 			}
 			else*/if(results != null && results.length >=3){
 				//console.log(results);
+				var essential = [["hi","babo"],["joys","love"],["live","die"]];
 
 				for(var i=3; results !=null&&i<results.length;i++){	
 					var source = {
@@ -73,7 +74,9 @@ module.exports={
 					 "name" :results[1],
 					"price": results[2],
 					"image" : results[i],
-					"detail_url" : detail_url
+					"detail_url" : detail_url,
+					"detail_text" : "hello",
+					"essential" : essential
 					}
                 	     		ret.push(source);
 			 	}
