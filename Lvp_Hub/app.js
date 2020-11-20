@@ -31,9 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.static(path.join(__dirname, 'public', 'script')));
 app.use(express.static(path.join(__dirname)));
-app.use(express.static(path.join(__dirname,'speaking')));
+//app.use(express.static(path.join(__dirname,'speaking')));
 app.use(express.static(path.join(__dirname,'speaking','search')));
 app.use(express.static(path.join(__dirname,'speaking','capture')));
+app.use(express.static(path.join(__dirname,'speaking','basic')));
 
 //시간마다 디비 비우기, 파일들 삭제하기
 

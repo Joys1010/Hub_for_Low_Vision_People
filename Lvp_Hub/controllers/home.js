@@ -94,7 +94,8 @@ module.exports = {
 									"product_name": a[3],
 									"price": a[5],
 									"image": a[7],
-									"detail": a[9]
+									"detail": a[9],
+									"review": a[11]
 								}
 								shopping_json.push(data);
 							}

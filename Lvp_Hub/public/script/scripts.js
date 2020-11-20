@@ -11,7 +11,7 @@ var socket = io();
 var flag = false;
 
 $('#ocr_select').click((e) => { 
-	aud.setAttribute("src", "./speaking/wait_capture.mp3");
+	aud.setAttribute("src", "./wait_capture.mp3");
 	play_form();
 
 	flag = true;
@@ -36,7 +36,7 @@ $('#ocr_select').click((e) => {
 		dragSpace.stop();
 		if(flag){
 		aud.pause();
-		aud.setAttribute("src", "./speaking/wait_capture_ocr.mp3");
+		aud.setAttribute("src", "./wait_capture_ocr.mp3");
 		play_form();
 		//console.log("initial : ",initialPos_x, " ", initialPos_y );
 		//console.log("final :" , finalPos_x, " ", finalPos_y);
@@ -188,6 +188,7 @@ function speak_crawling(){
     play_form();
 }
 function play_form(){
+	aud.playbackRate=0.8
 	console.log("jjeong tts play_form");
     var playPromise = aud.play();
     if (playPromise !== undefined) {
@@ -201,7 +202,7 @@ function play_form(){
 }
 
 
-function tts_btn(){
+/*function tts_btn(){
     btn_click = !btn_click;
     if(btn_click ==true){
 
@@ -243,7 +244,83 @@ function tts_btn(){
 
        // ;
     }
+}*/
+
+
+function tts_btn(){
+	btn_click = !btn_click;
+	if(btn_click ==true){
+
+		var title = $('.h2').text().split(":")[1];
+		console.log(title);
+		aud.setAttribute("src",'./notice_text_tts.mp3'); 
+		play_form();
+		$('.dyn_tts').each(function() {
+			var item_name = "dyn_tts";
+			var path ="";
+			$(this).hover(
+				function(){
+					if(btn_click){
+						aud.setAttribute("src","");
+						var item_content = this.textContent;
+						console.log(item_content);
+						var data = { search_word: "dyn_tts" ,contents : item_content, name :item_name};
+						socket.emit('textTTS', data);
+						socket.on('audioDone', data=>{
+							path = data ;
+							aud.setAttribute("src",path);
+							play_form();
+							console.log("mouse over");
+						})
+					}
+				},
+				function(){
+					console.log("off");
+					aud.pause();
+				}
+
+			);
+		});
+		$('.detail_and_button').each(function() {
+			var item_name = $(this).attr('id');
+			$(this).hover(
+				function(){
+					if(btn_click){
+						aud.setAttribute("src","");
+						var item_content = this.querySelector(".item_detail").textContent;
+						console.log(item_content);
+						aud.setAttribute("src","./ding_dong.mp3");
+						play_form();
+						var data = { search_word: title ,contents : item_content, name :item_name};
+						socket.emit('textTTS', data);
+						socket.on('audioDone', data=>{
+							const path = data ;
+							aud.setAttribute("src",path);
+
+							play_form();
+							console.log("mouse over");
+						})
+					}
+				},
+				function(){
+
+					console.log("off");
+					aud.pause();
+
+				}
+
+			);
+		});
+
+	}else{
+		aud.setAttribute("src",`./end_tts.mp3`);
+		play_form();
+	}
 }
+
+
+
+
 
  //joys
 var nowZoom = 100;
@@ -265,7 +342,7 @@ function zoomOut()
 	
 	var Page = document.querySelector("body");
 	nowZoom = nowZoom - 10;
-	if (nowZoom <= 70) nowZoom = 70;
+	if (nowZoom <= 100) nowZoom = 100;
 	var zoom = nowZoom + '%';
 	Page.style.zoom = zoom;
 

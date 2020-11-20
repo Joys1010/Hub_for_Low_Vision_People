@@ -38,13 +38,13 @@
 											</div>
 
 											<div class="detailpg_detail_and_button">
-												<div class="item_detail" style="font-size : 1.5rem; color : black;">
+												<div class="item_detail dyn_tts" style="font-size : 1.5rem; color : black;">
 													<p> <%= detail_data[0].name %> </p>
 													<p> <%= detail_data[0].price %> </p>
 												</div>
 
 												<a href = <%=detail_data[0].detail_url%> >
-													<button class = "detail_joys" type="button" name="detailURL">구매하러가기</button>
+													<button id = "go_buy" class = "detail_joys tts" type="button" name="detailURL">구매하러가기</button>
 												</a>
 											</div>
 										</div>
@@ -68,22 +68,7 @@
 									<h2 class="h2">필수정보고시</h2>
 									<hr style="width:100%">
 
-									<% var essential_arr = detail_data[0].essential %>
-
-									<% essential_arr.forEach(function(d) { %>
-									<p> <%= d[0] %> : <%= d[1] %>  </p>
-									<% }) %>
-
-									<!--<% for (var i=0;i<1;i++) { %>
-										<p> <%=detail_data[0].essential %>
-										<br/>
-										</p>
-										<% } %>-->
-	
-
-									<!--<% detail_data.forEach(function(d) { %>
-										<p> <%=d.essential %> </p>
-										<% }) %>-->
+									
 
 								</div>
 							</div>
@@ -113,10 +98,10 @@
 			</div>
 			<!--sidebar start-->
 			<div id="sidebar_wrapper" class="sidebar_wrapper_joys">
-				<ul class="navbar-nav bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
+				<ul class="bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
 					<div id="button_group" class="button_group">
-						<form action="/" id="first_page" name="first_page" class="">
-							<button type="submit" onclick="firstPage()" class="button_detail_joys" style="margin-top : 1rem">첫 화면<br/>이동하기
+						<form action="/" id="first_page" name="first_page" style = "margin-top: 2rem;">
+							<button id="go_first" type="submit" onclick="firstPage()" class="button_joys tts" style="margin-top : 1rem">첫 화면<br/>이동하기
 							</button>
 							<script>
 								function firstPage() {
@@ -129,17 +114,15 @@
 							해당 브라우저는 audio 태그를 지원하지 않습니다.
 						</audio>
 
-						<button id="ocr_all" class="button_detail_joys">상세이미지<br/>전체읽기</button>
+						<button id ="ocr_select" class="button_joys tts">선택영역<br/>이미지읽기</button>
 
-						<button id ="ocr_select" class="button_detail_joys">선택영역<br/>이미지읽기</button>
+						<button id ="over_tts" class="button_joys tts" onclick="tts_btn(); tts_html()">마우스<br/>포인터읽기</button>
 
-						<button id ="over_tts" class="button_detail_joys" onclick="tts_btn()">마우스<br/>포인터읽기</button>
+						<button id = "in_btn" class="button_joys tts" onclick="zoomIn()"> 확대</button>
 
-						<button id = "enlargement" class="button_detail_joys"> 확대</button>
+						<button id = "out_btn"  class="button_joys tts" onclick="zoomOut()"> 축소</button>
 
-						<button id = "reduction"  class="button_detail_joys"> 축소</button>
-
-						<button type="button" onclick="goTop()" class="button_detail_joys">위로<br/>이동하기</button>
+						<button id = "go_up" type="button" onclick="goTop()" class="button_joys tts">위로<br/>이동하기</button>
 						<script>
 							function goTop() {
 								document.documentElement.scrollTop = 0;
@@ -148,10 +131,12 @@
 					</div>
 				</ul>
 			</div>
+
 			<!--sidebar done-->
 			<div style="width : 300px;height:50px;"></div>
 
 			<script src="./scripts.js"></script>
+			<script src="./html_tts.js"></script>
 
 		</div>
 

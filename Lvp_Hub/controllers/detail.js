@@ -75,8 +75,8 @@ module.exports={
 					"price": results[2],
 					"image" : results[i],
 					"detail_url" : detail_url,
-					"detail_text" : "hello",
-					"essential" : essential
+					"detail_text" : results[results.length-2],
+					"essential" : results[results.length-1]
 					}
                 	     		ret.push(source);
 			 	}

@@ -18,9 +18,9 @@
 		<!-- Page Wrapper -->
 		<div id="wrapper">
 			<div id="content-wrapper">
-				<h1 class="h1">LVP HUB ITEMS</h1>
+				<h1 class="h1 dyn_tts">LVP HUB ITEMS</h1>
 				<br/>
-				<h2 class="h2" style = "font-weight : bold;"> 검색어 : <%= data[0].search_word %> </h2>
+				<h2 class="h2 dyn_tts" style = "font-weight : bold;"> 검색어 : <%= data[0].search_word %> </h2>
 				<br/>
 				<div class="items">
 					<% data.forEach(function(e, idx) { %>
@@ -62,7 +62,7 @@
 												<p> </p>-->
 
 												<form action="/detail" method="post">
-													<button class = "detail_joys" type="submit" id="detail<%= idx %>" name="detailURL" style="font-weight : bold;">상세설명보기</button>
+													<button class = "detail_joys tts" type="submit" id="detail<%= idx %>" name="detailURL" style="font-weight : bold;">상세설명보기</button>
 												</form>
 												<script>
 
@@ -87,7 +87,7 @@
 					<ul class="bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
 						<div id="button_group" class="button_group">
 							<form action="/" id="first_page" name="first_page" style = "margin-top: 2rem;">
-								<button type="submit" onclick="firstPage()" class="button_joys" style="margin-top : 1rem">첫 화면<br/>이동하기
+								<button id="go_first" type="submit" onclick="firstPage()" class="button_joys tts" style="margin-top : 1rem">첫 화면<br/>이동하기
 								</button>
 								<script>
 									function firstPage() {
@@ -100,15 +100,15 @@
 								해당 브라우저는 audio 태그를 지원하지 않습니다.
 							</audio>
 
-							<button id ="ocr_select" class="button_joys">선택영역<br/>이미지읽기</button>
+							<button id ="ocr_select" class="button_joys tts">선택영역<br/>이미지읽기</button>
 
-							<button id ="over_tts" class="button_joys" onclick="tts_btn()">마우스<br/>포인터읽기</button>
+							<button id ="over_tts" class="button_joys tts" onclick="tts_btn(); tts_html()">마우스<br/>포인터읽기</button>
 
-							<button id = "in_btn" class="button_joys" onclick="zoomIn()"> 확대</button>
+							<button id = "in_btn" class="button_joys tts" onclick="zoomIn()"> 확대</button>
 
-							<button id = "out_btn"  class="button_joys" onclick="zoomOut()"> 축소</button>
+							<button id = "out_btn"  class="button_joys tts" onclick="zoomOut()"> 축소</button>
 
-							<button type="button" onclick="goTop()" class="button_joys">위로<br/>이동하기</button>
+							<button id = "go_up" type="button" onclick="goTop()" class="button_joys tts">위로<br/>이동하기</button>
 							<script>
 								function goTop() {
 									document.documentElement.scrollTop = 0;
@@ -122,6 +122,7 @@
 				<div style="width : 300px;height:50px;"></div>
 
 			<script src = "./scripts.js"></script>
+			<script src = "./html_tts.js"></script>
 
 		
 			</div>
