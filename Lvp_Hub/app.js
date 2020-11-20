@@ -1,11 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
-var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 var proxy = require('html2canvas-proxy');
+
+var schedule = require("node-schedule");
+const fsExtra = require('fs-extra');
 
 const app = express();
 //app.use(cors());
@@ -21,7 +23,6 @@ app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile)
 
 
-
 app.use(logger('dev'));
 app.use(express.json({limit : "50mb"}));
 app.use(express.urlencoded({ extended: true ,limit : "50mb"}));
@@ -33,6 +34,28 @@ app.use(express.static(path.join(__dirname)));
 app.use(express.static(path.join(__dirname,'speaking')));
 app.use(express.static(path.join(__dirname,'speaking','search')));
 app.use(express.static(path.join(__dirname,'speaking','capture')));
+
+//시간마다 디비 비우기, 파일들 삭제하기
+
+var rule = new schedule.RecurrenceRule();
+rule.hour = 3;
+
+const j = schedule.scheduleJob(rule, function(){
+
+  const search = path.join(__dirname,'speaking','search');
+  const detail = path.join(__dirname,'speaking','detail');
+  const capture = path.join(__dirname,'speaking','capture');
+  const captured = path.join(__dirname, 'captured');
+  const imgOutput = path.join(__dirname,'controllers','python', 'output');
+
+  var deleted = new Array(search, detail, capture, captured, imgOutput);
+
+  for(var i = 0 ; i < deleted.length ; i++){
+    //console.log(deleted[i]);
+    fsExtra.emptyDirSync(deleted[i]);
+  }
+  console.log("deleted");
+});
 
 //일단 주석 처리
 app.use(router);

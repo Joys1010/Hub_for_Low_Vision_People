@@ -43,9 +43,6 @@ $('#ocr_select').click((e) => {
 		
 		
 		html2canvas(document.body, {
-			//allowTaint : false,
-			//useCORS: true,
-			//logging: true,
 			proxy: '/search',
 			proxy: '/detail',
 			x: Math.min(initialPos_x,finalPos_x),
