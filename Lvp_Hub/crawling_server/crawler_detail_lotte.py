@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 def crawler_detail_lotte(url):
 
     #soup= BeautifulSoup(requests.get(url).content,'lxml')
+    
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')

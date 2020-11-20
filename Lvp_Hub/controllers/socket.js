@@ -11,7 +11,6 @@ module.exports = (server, app) =>{
 	app.set('io', io);
 	
 	
-
     io.on('connection', socket=>{
 
 	   socket.on('imgSrc', async function(imgSrc){
@@ -130,10 +129,10 @@ module.exports = (server, app) =>{
 			makeFolder(folder_name);
 			output_name =ttsData.name;
 			path = `${folder_name}/${output_name}.mp3`;
-			//if (!(fs.existsSync(path))) {
+			if (!(fs.existsSync(path))) {
 				//file exists
 				await w_File(path, response.audioContent, 'binary');
-			//}
+			}
 			}catch(err){
 				return;
 			}
@@ -142,7 +141,8 @@ module.exports = (server, app) =>{
 
         socket.on('ocrSource', async function(data){
             console.log("Socket.on - ocrSource(server)");
-            imgSegData = JSON.parse(JSON.stringify(data));
+			imgSegData = JSON.parse(JSON.stringify(data));
+			
 			product_name = imgSegData.product_name;
 	    	var argPython = [imgSegData.count, imgSegData.img_url];
 
@@ -156,8 +156,14 @@ module.exports = (server, app) =>{
             };
             
             PythonShell.run('./controllers/python/imgSeg.py', options, async function(err, results){
-                if (err) throw err;
-                //console.log(`results: ${results}`);
+				if (err) throw err;
+			
+				console.log(`results: ${results}`);
+				
+				var savedPath = results[0];
+
+				var results = results.splice(1, results.length);
+				
 				var maxCount = results.length;	
 				socket.emit('arrCount', parseInt(results[maxCount-1]));
 
@@ -171,7 +177,7 @@ module.exports = (server, app) =>{
 							// Creates a client
 							const client = new vision.ImageAnnotatorClient();
 				
-							var fileName = './controllers/python/output/Img'+imgName+'.jpg'
+							var fileName = savedPath+'Img'+imgName+'.jpg'
 							const [result] = await client.textDetection(fileName);
 							const detections = result.textAnnotations;
 					
@@ -268,7 +274,7 @@ module.exports = (server, app) =>{
                     // Creates a client
                     const client = new vision.ImageAnnotatorClient();
         
-                    var fileName = './controllers/python/output/Img'+imgName+'.jpg'
+                    var fileName = savedPath+'Img'+imgName+'.jpg'
                     const [result] = await client.textDetection(fileName);
                     const detections = result.textAnnotations;
 		    
@@ -355,7 +361,10 @@ module.exports = (server, app) =>{
 
                     }
 				}
+				
 			}
+			
+			
 		}
 		//yae
 		//socket.emit('arrCount', results[0]);
@@ -574,4 +583,3 @@ module.exports = (server, app) =>{
 		 	}
 
 };
-

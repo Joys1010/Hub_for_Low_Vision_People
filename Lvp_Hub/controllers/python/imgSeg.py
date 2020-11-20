@@ -1,7 +1,18 @@
 import sys
+import random
+import string
+import os
+def makeFolder():
+    
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(8))
+    path = "./controllers/python/output/"+result_str+"/"
+    os.mkdir(path)
+    return path
 
 def imgSeg(imgCount, img_urls):
-	
+        savePath = makeFolder()
+        print(savePath)
         count = 0
         path = img_urls.split(',')
         for i in range(int(imgCount)):
@@ -46,11 +57,11 @@ def imgSeg(imgCount, img_urls):
 
                             if( tempHeight -y > 100 ) :
                                 count += 1
-                                cv2.imwrite("./controllers/python/output/Img"+str(count)+".jpg", img[y:tempHeight, 0:0+width])
+                                cv2.imwrite(savePath+"Img"+str(count)+".jpg", img[y:tempHeight, 0:0+width])
                                 tempY = y
             if(tempY > 10):
                     count += 1
-                    cv2.imwrite("./controllers/python/output/Img"+str(count)+".jpg", img[0:tempY, 0:0+width])
+                    cv2.imwrite(savePath+"Img"+str(count)+".jpg", img[0:tempY, 0:0+width])
             print(count)        
             #cv2.imwrite("output/Img"+str(count)+".jpg", img[0:tempY, 0:0+width])
             #cv2.imshow('img', temp)
