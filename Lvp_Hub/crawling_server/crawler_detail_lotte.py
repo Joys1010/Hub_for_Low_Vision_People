@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 def crawler_detail_lotte(url):
-    #driver = webdriver.Chrome('./crawling_server/chromedriver') # 설치 폴더에 주의합니다. 
+    #driver = webdriver.Chrome('./chromedriver') # 설치 폴더에 주의합니다. 
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')

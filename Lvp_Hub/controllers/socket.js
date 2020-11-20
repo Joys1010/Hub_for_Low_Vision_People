@@ -89,7 +89,7 @@ module.exports = (server, app) =>{
 
 	   })
 
-	   socket.on('textTTS',async function(data){
+	socket.on('textTTS',async function(data){
 		searchData = JSON.parse(JSON.stringify(data));
 		var ttsData = { option: "search", search_word:searchData.search_word, img_url:"NULL", name:searchData.name, contents: searchData.contents };
 			const fs = require('fs');
@@ -104,9 +104,9 @@ module.exports = (server, app) =>{
 
 			//폴더 만들어주기
 			const makeFolder = (dir)=>{  
-			if(!fs.existsSync(dir)){  
-			fs.mkdirSync(dir);    
-			}                         
+				if(!fs.existsSync(dir)){  
+				fs.mkdirSync(dir);    
+				}                         
 			}                           
 		
 			var ttsData = JSON.parse(JSON.stringify(ttsData));
@@ -114,9 +114,9 @@ module.exports = (server, app) =>{
 			const search_word =ttsData.search_word;
 			const contents = ttsData.contents;
 			const request = {
-			input: {text: contents},
-			voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
-			audioConfig: {audioEncoding: 'MP3'}
+				input: {text: contents},
+				voice: {languageCode: 'ko-KR', ssmlGender: 'FEMALE'},
+				audioConfig: {audioEncoding: 'MP3'}
 			};
 
 			var path;
@@ -126,16 +126,16 @@ module.exports = (server, app) =>{
 			// Write the binary audio content to a local file
 			const w_File = util.promisify(fs.writeFile);
 			var folder_name, output_name;
-				folder_name = `./speaking/search/${search_word}`
-				makeFolder(folder_name);
-				output_name =ttsData.name;
+			folder_name = `./speaking/search/${search_word}`
+			makeFolder(folder_name);
+			output_name =ttsData.name;
 			path = `${folder_name}/${output_name}.mp3`;
 			if (!(fs.existsSync(path))) {
 				//file exists
 				await w_File(path, response.audioContent, 'binary');
 			}
 			}catch(err){
-			return;
+				return;
 			}
 			socket.emit('audioDone', path);
 	});

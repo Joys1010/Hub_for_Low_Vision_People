@@ -15,7 +15,6 @@ module.exports = {
 		/*yae 여기 나중에 정식db에서 가져오고 그래야함! */
 		/* 1. url 속 db 이름 바꾸기
 		 *             2. db collection 맞춰주기, 각 쇼핑몰별로(search_category) */ 
-		console.log(search_word);
 		mongoose = require('mongoose');
 		/*db 이름 바꾸는 부분*/
 		mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_front_test?retryWrites=true&w=majority',
@@ -42,7 +41,7 @@ module.exports = {
 		}
 		/*가져온 디비 데이터*/
 		let db_data = await getData(search_category, search_word);
-		console.log(db_data);
+		mongoose.connection.close();
 
 		async function data_send(db_data) {
 			/*yae*/
@@ -50,6 +49,11 @@ module.exports = {
 			/*data 넣기*/
 			function send_render(src){
 				res.render('../views/search.ejs', {data : src});
+				/*
+				const timestamp = new Date().getTime();
+				const imageWithTimestamp = src.includes('?') ? `${src}&v=${timestamp}` : `${src}?v=${timestamp}`;
+				res.render('../views/search.ejs', {data : imageWithTimestamp});
+				*/
 			}
 			await send_render(shopping_json);
 		}
