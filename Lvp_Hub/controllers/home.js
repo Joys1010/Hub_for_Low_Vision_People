@@ -11,6 +11,7 @@ module.exports = {
 		var search_category = req.body.search_category;
 		var search_word = req.body.search_word;
 		var ret = [];
+		console.log(req.body)
 
 		/*yae 여기 나중에 정식db에서 가져오고 그래야함! */
 		/* 1. url 속 db 이름 바꾸기
@@ -32,7 +33,7 @@ module.exports = {
 					/*collection 바꾸는 부분*/
 					connection.db.collection("capstone", function(err, collection){
 						collection.find({"search_category":category} ,{"search_word":word}).sort("price", 1).toArray(function(err, data){
-							/*console.log(data); // it will print your collection data*/
+							console.log(data); // it will print your collection data
 							resolve(data);
 						})
 					});
@@ -48,11 +49,7 @@ module.exports = {
 			/*data 넣기*/
 			function send_render(src){
 				res.render('../views/search.ejs', {data : src});
-				/*
-				const timestamp = new Date().getTime();
-				const imageWithTimestamp = src.includes('?') ? `${src}&v=${timestamp}` : `${src}?v=${timestamp}`;
-				res.render('../views/search.ejs', {data : imageWithTimestamp});
-				*/
+				
 			}
 			await send_render(shopping_json);
 		}
@@ -67,6 +64,8 @@ module.exports = {
 			};
 
 			var mall;
+
+
 			if (search_category == 'emart') {
 				mall = './crawling_server/crawler_emart.py';
 			} else if (search_category == 'lotte') {
@@ -78,6 +77,27 @@ module.exports = {
 
 				mall = './crawling_server/crawler_lotte.py';
 			}
+
+
+			//joys adjusted : check plz
+			/*for (var i = 0; i< search_category.length; i++) {
+
+
+				if (search_category == 'emart') {
+					mall = './crawling_server/crawler_emart.py';
+				} if (search_category == 'lotte') {
+					mall = './crawling_server/crawler_lotte.py';
+				} if (search_category == 'gmarket') {
+					mall = './crawling_server/crawler_gmarket.py';
+				}
+				else {
+
+					mall = './crawling_server/crawler_emart.py';
+					mall = './crawling_server/crawler_lotte.py';
+					mall = './crawling_server/crawler_gmarket.py';
+				}
+			}*/
+
 			var undefine_error = false;
 
 			var shopping_json = []

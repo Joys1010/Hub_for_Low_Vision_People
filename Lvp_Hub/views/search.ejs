@@ -21,7 +21,17 @@
 				<h1 class="h1 dyn_tts">LVP HUB ITEMS</h1>
 				<br/>
 				<h2 class="h2 dyn_tts" style = "font-weight : bold;"> 검색어 : <%= data[0].search_word %> </h2>
+				<form action="/sort" accept-charset="utf-8" method = "post" id="sorting" name=sortingSelect">
+					<select name="sort_category" form="sortAction" style= "font-weight : bold; margin-top : 2rem; margin-bottom : 2rem;  font-size : 4rem; width : 500px; height : 100px; ">
+						<option style = "font-weight : bold;"value="review_small">리뷰 많은 순</option>
+						<option style = "font-weight : bold;"value="review_many">리뷰 적은 순</option>
+						<option style = "font-weight : bold;"value="price_high">가격 높은 순</option>
+						<option style = "font-weight : bold;"value="price_low">가격 낮은 순</option>
+					</select>
+					<button type ="submit" class="btn-primary-joys" style="font-weight : bold;" onclick=sortFunc()">정렬하기</button>
+				</form>
 				<br/>
+
 				<div class="items">
 					<% data.forEach(function(e, idx) { %>
 					<!-- item1 start-->
@@ -47,7 +57,7 @@
 											<div id = "id_for_tts <%= idx %>" class="detail_and_button">
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
 													<p> <%= e.product_name %> </p>
-													<p> 리뷰 : 333 개 </p>
+													<p> 리뷰 : <%= e.review %> </p>
 													<p style="background-color:#f6c23e;"> <%= e.price %>원 </p>
 												</div>
 												<!--<div>

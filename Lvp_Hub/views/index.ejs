@@ -15,6 +15,7 @@
 
 				<h1 class="h1">LVP HUB</h1>
 				<p style="margin-bottom : 0.5rem; color : black;">Welcome to LVP HUB</p>
+				<br/>
 				<form action="/search" accept-charset="utf-8" method="post" id="searchAction" name="searchAction"
 										  style="margin-bottom: 5rem">
 					<div class="input-group">
@@ -34,33 +35,28 @@
 							</button>
 						</div>
 					</div>
-					<select name="search_category" form="searchAction" style= "font-weight : bold; margin-top : 2rem; margin-bottom : 2rem;  font-size : 4rem">
-						<option value="" disabled selected>LOTTE MALL</option>
-						<option value="emart">E-MART</option>
-						<option value="lotte">LOTTE MALL</option>
-						<option value="gmarket">GMARKET</option>
-					</select>
 					<br/>
 
 					<div class ="check_joys">
-						<input id="emart" type="checkbox">
+						<input id="emart" type="checkbox" checked = "checked" name = "search_category" value = "emart">
 						<label for ="emart">
 							<span> EMART </span>
 						</label>
 					<!--</div>
 
 					<div class ="check_joys">-->
-						<input id="lotte" type="checkbox">
+						<input id="lotte" type="checkbox" checked = "checked" name = "search_category" value = "lotte">
 						<label for ="lotte">
 							<span> LOTTE MALL </span>
 						</label>
 					<!--</div>
 					<div class ="check_joys">-->
-						<input id="gmarket" type="checkbox">
+						<input id="gmarket" type="checkbox" checked = "checked"  name = "search_category" value = "gmarket">
 						<label for ="gmarket">
 							<span> GMARKET </span>
 						</label>
 					</div>
+
 						
 				</form>
 				<h3 class="h3">상품 할인정보는 상품 상세페이지에서 확인하실 수 있습니다</h3>
