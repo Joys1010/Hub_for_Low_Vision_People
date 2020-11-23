@@ -31,7 +31,7 @@ module.exports = {
 					console.log(word);
 
 					/*collection 바꾸는 부분*/
-					connection.db.collection("capstone", function(err, collection){
+					connection.db.collection("LVP_HUB", function(err, collection){
 						collection.find({"search_category":category} ,{"search_word":word}).sort("price", 1).toArray(function(err, data){
 							console.log(data); // it will print your collection data
 							resolve(data);
@@ -54,17 +54,17 @@ module.exports = {
 			await send_render(shopping_json);
 		}
 
-		async function crawl_search(input) {
+		async function crawl_search(search_word, search_category) {
 
 			const {PythonShell} = require('python-shell');
 
 			let options = {
 				scriptPath: "./",
-				args: [input]
+				args: [search_word]
 			};
 
+			/*
 			var mall;
-
 
 			if (search_category == 'emart') {
 				mall = './crawling_server/crawler_emart.py';
@@ -78,30 +78,11 @@ module.exports = {
 				mall = './crawling_server/crawler_lotte.py';
 			}
 
-
-			//joys adjusted : check plz
-			/*for (var i = 0; i< search_category.length; i++) {
-
-
-				if (search_category == 'emart') {
-					mall = './crawling_server/crawler_emart.py';
-				} if (search_category == 'lotte') {
-					mall = './crawling_server/crawler_lotte.py';
-				} if (search_category == 'gmarket') {
-					mall = './crawling_server/crawler_gmarket.py';
-				}
-				else {
-
-					mall = './crawling_server/crawler_emart.py';
-					mall = './crawling_server/crawler_lotte.py';
-					mall = './crawling_server/crawler_gmarket.py';
-				}
-			}*/
-
-			var undefine_error = false;
+			*/
+					var undefine_error = false;
 
 			var shopping_json = []
-			function mall_crawl() {
+			function mall_crawl(mall,category,word) {
 				return new Promise((resolve, reject) => {
 					try {
 						PythonShell.run(mall, options, (err, results) => {
@@ -109,8 +90,8 @@ module.exports = {
 							for (var i = 0;results!=null && i < results.length; i++) {
 								var a = results[i].split('\'');
 								var data = {
-									"search_category" : search_category,
-									"search_word" : search_word,
+									"search_category" : category,
+									"search_word" : word,
 									"product_name": a[3],
 									"price": a[5],
 									"image": a[7],
@@ -128,7 +109,30 @@ module.exports = {
 				})
 
 			};
-			await mall_crawl();
+			//await mall_crawl();
+	//joys adjusted : check plz
+			for (var i = 0; i< search_category.length; i++) {
+				var mall;
+				
+				if (search_category[i] == 'emart') {
+					mall = './crawling_server/crawler_emart.py';
+				} else if (search_category[i] == 'lotte') {
+					mall = './crawling_server/crawler_lotte.py';
+				} else if (search_category[i] == 'gmarket') {
+					mall = './crawling_server/crawler_gmarket.py';
+				}
+				else {
+
+					continue;
+				}
+				try{
+					await mall_crawl(mall, search_category[i],search_word);
+				} catch{
+				
+						console.log('error running python code')
+				}
+			}
+
 
 			function send_render_c(src){
 
@@ -141,7 +145,7 @@ module.exports = {
 
 		if (db_data.length === 0) {
 
-			crawl_search(search_word);
+			crawl_search(search_word,search_category);
 		}
 		else {
 			data_send(db_data);
