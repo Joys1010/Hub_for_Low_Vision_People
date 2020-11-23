@@ -44,29 +44,20 @@ module.exports={
 //yaewon temp	
                 try{
 	                PythonShell.run(cite, options, (err, results) => {
-        	             if (err) throw err;
-		/*	if(cite.indexOf('lotte')!=-1){
-			
-				for(var i=0; results !=null&&i<results.length;i++){	
-					var arr= results[i].split(",");
-					for(var j=0;arr!=null&&j<arr.length;j++){	
-                				console.log(arr[j]);
-						var stmt = arr[j].split("src");
-						var last = stmt[1].split("\"");
-                				console.log(last[1]);
-						var source = {
+                         if (err) throw err;
+                         //
+		    if(results != null && results.length >=3){
+                //console.log(results);
+                ess =results[results.length-2].split('\'');
+                var essential = [];//var essential = [];
+                for(var i=0; i<ess.length;i+4){
+                    var tmp =[];
+                    tmp.push(ess[i+1]);
+                    tmp.push(ess[i+3]);
+                    essential.push(tmp);
 
-							"product_name" : for_ocr,
-							"image" :last[1]
-						}
-                	     			ret.push(source);
-					}
-				}
-			}
-			else*/if(results != null && results.length >=3){
-				//console.log(results);
-				var essential = [["hi","babo"],["joys","love"],["live","die"]];
-
+                }
+                //console.log(essential)
 				for(var i=3; results !=null&&i<results.length;i++){	
 					var source = {
 					"product_name" : for_ocr,
@@ -76,7 +67,7 @@ module.exports={
 					"image" : results[i],
 					"detail_url" : detail_url,
 					"detail_text" : results[results.length-2],
-					"essential" : results[results.length-1]
+					"essential" : essential
 					}
                 	     		ret.push(source);
 			 	}

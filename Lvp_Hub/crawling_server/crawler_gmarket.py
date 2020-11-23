@@ -15,10 +15,10 @@ from selenium.webdriver.chrome.options import Options
 #DB
 import pymongo 
 import dns
+
 client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
 db = client.LVP_HUB
 gmarket_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
-
 
 
 def crawler_gmarket(word):
@@ -29,8 +29,8 @@ def crawler_gmarket(word):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    #driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
-    driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
+    driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
+    #driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
     #remember
     driver.get(url) 
     time.sleep(3) 
@@ -72,7 +72,7 @@ def crawler_gmarket(word):
         # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
         tmp = [word ,title.text ,numbers[0] ,check_img ,url["href"],review]
         output.append( tmp)
-
+    driver.close()
 
     
     

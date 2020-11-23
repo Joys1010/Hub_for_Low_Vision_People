@@ -53,7 +53,8 @@ def crawler_emart(word):
         tmp = [word,title,numbers[0],check_img,check_url,review]
         output.append(tmp)
         
-    
+
+
     if len(title)==0:
         return []
    

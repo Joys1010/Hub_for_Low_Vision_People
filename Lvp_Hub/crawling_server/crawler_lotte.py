@@ -11,6 +11,7 @@ from selenium.webdriver.chrome.options import Options
 #DB
 import pymongo 
 import dns
+
 client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
 db = client.LVP_HUB
 lotte_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
@@ -54,6 +55,7 @@ def crawler_lotte(word):
 
         tmp = [word,title_post , numbers[0],img[0]["src"],url[0]["href"],review]
         output.append( tmp)
+        driver.close()
 
     return output
 

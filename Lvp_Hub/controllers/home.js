@@ -85,7 +85,9 @@ module.exports = {
 			function mall_crawl(mall,category,word) {
 				return new Promise((resolve, reject) => {
 					try {
+						console.log(mall+category+word)
 						PythonShell.run(mall, options, (err, results) => {
+							console.log(mall+category+word)
 							if (err) throw err;
 							for (var i = 0;results!=null && i < results.length; i++) {
 								var a = results[i].split('\'');
@@ -111,10 +113,12 @@ module.exports = {
 			};
 			//await mall_crawl();
 	//joys adjusted : check plz
+			if (search_category.length<3){
 			for (var i = 0; i< search_category.length; i++) {
 				var mall;
-				
+				console.log(search_category[i]+search_word)
 				if (search_category[i] == 'emart') {
+					
 					mall = './crawling_server/crawler_emart.py';
 				} else if (search_category[i] == 'lotte') {
 					mall = './crawling_server/crawler_lotte.py';
@@ -132,10 +136,24 @@ module.exports = {
 						console.log('error running python code')
 				}
 			}
+		}else{
+			var mall;
 
+			if (search_category == 'emart') {
+				mall = './crawling_server/crawler_emart.py';
+			} else if (search_category == 'lotte') {
+				mall = './crawling_server/crawler_lotte.py';
+			} else if (search_category == 'gmarket') {
+				mall = './crawling_server/crawler_gmarket.py';
+			}
+			else {
+
+				mall = './crawling_server/crawler_lotte.py';
+			}
+			await mall_crawl(mall, search_category,search_word);
+		}
 
 			function send_render_c(src){
-
 
 				res.render('../views/search.ejs', {data : src});
 
