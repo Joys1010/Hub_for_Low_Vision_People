@@ -46,19 +46,19 @@ module.exports={
 	                PythonShell.run(cite, options, (err, results) => {
                          if (err) throw err;
                          //
-		    if(results != null && results.length >=3){
-                //console.log(results);
-                ess =results[results.length-2].split('\'');
-                var essential = [];//var essential = [];
-                for(var i=0; i<ess.length;i+4){
-                    var tmp =[];
-                    tmp.push(ess[i+1]);
-                    tmp.push(ess[i+3]);
-                    essential.push(tmp);
-
-                }
-                //console.log(essential)
-				for(var i=3; results !=null&&i<results.length;i++){	
+		    	if(results != null && results.length >=3){
+                		ess =results[results.length-2].split('\'');
+				//	 console.log(ess);
+                		var essential = [];//var essential = [];
+				if(ess.length >3){
+                			for(var i=0; i<ess.length;i=i+4){
+                    			var tmp =[];
+                    			tmp.push(ess[i+1]);
+                    			tmp.push(ess[i+3]);
+                    			essential.push(tmp);
+               				 }
+				}
+				for(var i=3; results !=null&&i<results.length-2;i++){	
 					var source = {
 					"product_name" : for_ocr,
 					"main_img": results[0],
@@ -78,9 +78,6 @@ module.exports={
                           console.log('error running python code')
                           reject();
                         } })}
-            //임의로 url을 던져줌
-           // var img_url = "https://www.lotteon.com/p/product/LM8809137650063?sitmNo=LM8809137650063_001&mall_no=1&dp_infw_cd=SCH바나나";
-            //함수 실행
             await mall_crawl(img_url); 
 	function send_render(src){
              

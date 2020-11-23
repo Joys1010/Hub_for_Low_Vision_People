@@ -25,10 +25,14 @@ def crawler_emart(word):
     soup= BeautifulSoup(requests.get(url).content,'lxml')
     cunit_info = soup.select('#idProductImg > li.cunit_t232')
     output =[]
+
+    if cunit_info is None:
+        return []
     for i in range(0,len(cunit_info)):
         tmp_soup = cunit_info[i] 
         
         title =  tmp_soup.select_one(' div.cunit_info > div.cunit_md.notranslate > div > a > em.tx_ko').get_text()
+
         price = tmp_soup.select_one(" div.cunit_info > div.cunit_price.notranslate > div.opt_price > em  ")
         review = tmp_soup.select_one(" div.cunit_info > div.cunit_app > div > span > em")
         if review is not None :
@@ -55,8 +59,6 @@ def crawler_emart(word):
         
 
 
-    if len(title)==0:
-        return []
    
     #print(round(time.time()-start,3))
     return output

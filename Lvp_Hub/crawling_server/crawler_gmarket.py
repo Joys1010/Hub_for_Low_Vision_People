@@ -49,6 +49,9 @@ def crawler_gmarket(word):
    # browser.close()
     output =[]
     soup = soup.select('div.box__item-container ')
+    if soup in None:
+        return []
+
     for tmp_soup in soup: 
         img = tmp_soup.select_one(' div.box__image > a > img') #src
         title =tmp_soup.select_one("div.box__information > div.box__information-major > div.box__item-title > span > a > span.text__item")
@@ -77,9 +80,7 @@ def crawler_gmarket(word):
     
     
     
-    if len(title)==0:
-        return []
-    '''
+        '''
     output =[]
 
 
