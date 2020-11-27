@@ -13,26 +13,20 @@ import requests
 import pymongo 
 import dns
 
-client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
-
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 db = client.LVP_HUB
-emart_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
-
+emart_db = db.productData
 
 def crawler_emart(word):
     start = time.time()
-    url = 'http://emart.ssg.com/search.ssg?target=all&query='+word
+    url = 'https://emart.ssg.com/search.ssg?target=all&query='+word
     soup= BeautifulSoup(requests.get(url).content,'lxml')
     cunit_info = soup.select('#idProductImg > li.cunit_t232')
     output =[]
-
-    if cunit_info is None:
-        return []
     for i in range(0,len(cunit_info)):
         tmp_soup = cunit_info[i] 
         
         title =  tmp_soup.select_one(' div.cunit_info > div.cunit_md.notranslate > div > a > em.tx_ko').get_text()
-
         price = tmp_soup.select_one(" div.cunit_info > div.cunit_price.notranslate > div.opt_price > em  ")
         review = tmp_soup.select_one(" div.cunit_info > div.cunit_app > div > span > em")
         if review is not None :
@@ -45,9 +39,9 @@ def crawler_emart(word):
         check_img = img["src"]
         check_url = url["href"]
         if check_img[0] == "/":
-            check_img = 'http:'+check_img
+            check_img = 'https:'+check_img
         if check_url[0]!="h":
-            check_url = "http://emart.ssg.com/" + check_url
+            check_url = "https://emart.ssg.com/" + check_url
         price_post = price.text.replace('원','')
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
@@ -57,8 +51,9 @@ def crawler_emart(word):
         tmp = [word,title,numbers[0],check_img,check_url,review]
         output.append(tmp)
         
-
-
+    
+    if len(title)==0:
+        return []
    
     #print(round(time.time()-start,3))
     return output

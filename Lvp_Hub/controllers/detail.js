@@ -39,40 +39,56 @@ module.exports={
                 else
                     return;
 
-		// 동기 방식으로 파이썬 파일 실행 
-                return new Promise((resolve,reject) =>{
-//yaewon temp	
-                try{
-	                PythonShell.run(cite, options, (err, results) => {
-                         if (err) throw err;
-                         //
-		    	if(results != null && results.length >=3){
-                		ess =results[results.length-2].split('\'');
-				//	 console.log(ess);
-                		var essential = [];//var essential = [];
-				if(ess.length >3){
-                			for(var i=0; i<ess.length;i=i+4){
-                    			var tmp =[];
-                    			tmp.push(ess[i+1]);
-                    			tmp.push(ess[i+3]);
-                    			essential.push(tmp);
-               				 }
-				}
-				for(var i=3; results !=null&&i<results.length-2;i++){	
-					var source = {
-					"product_name" : for_ocr,
-					"main_img": results[0],
-					 "name" :results[1],
-					"price": results[2],
-					"image" : results[i],
-					"detail_url" : detail_url,
-					"detail_text" : results[results.length-2],
-					"essential" : essential
-					}
-                	     		ret.push(source);
-			 	}
-			}
-                   	     resolve();  
+		    // 동기 방식으로 파이썬 파일 실행 
+		    return new Promise((resolve,reject) =>{
+			    //yaewon temp	
+			    try{
+				    PythonShell.run(cite, options, (err, results) => {
+					    if (err) throw err;
+					    //----------------
+					    var essential = [];  
+					    var detail_info = [];         //
+					    if(results != null && results.length >=3){
+						    //console.log(results);
+
+						    ess =results[results.length-1].split('\'');
+						    //var essential = [];
+						    for(var i=0; i<ess.length;i=i+4){
+							    var tmp =[];
+							    tmp.push(ess[i+1]);
+							    tmp.push(ess[i+3]);
+							    essential.push(tmp);
+
+						    }
+
+						    if(results[results.length-2] != "" && results[results.length-2] != null ){
+
+							    var tmp= results[results.length-2].replaceAll("[","").replaceAll("]","").replaceAll("\\t","").replaceAll("\t","").replaceAll("\"","").replaceAll(",","");
+							    _tmp = tmp.split("\\n");
+							    for (var i=0; i<_tmp.length;i++){
+								    __tmp = tmp.split(".");
+								    for (var j=0; j< __tmp.length;j++)
+								    	detail_info.push(__tmp[j]+".");
+							    }
+						    }
+						    //----------------
+
+						    for(var i=3; results !=null&&i<results.length-2;i++){	
+							    var source = {
+								    "product_name" : for_ocr,
+								    "main_img": results[0],
+								    "name" :results[1],
+								    "price": results[2],
+								    "image" : results[i],
+								    "detail_url" : detail_url,
+								    "detail_text" : detail_info,
+								    "essential" : essential
+							    }
+							    ret.push(source);
+						    }
+					    }
+
+                                  	     resolve();  
                     	}); 
 		} catch{
                           console.log('error running python code')

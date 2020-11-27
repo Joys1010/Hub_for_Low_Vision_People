@@ -90,7 +90,7 @@ module.exports = (server, app) =>{
 
 	socket.on('textTTS',async function(data){
 		searchData = JSON.parse(JSON.stringify(data));
-		var ttsData = { option: "search", search_word:searchData.search_word, img_url:"NULL", name:searchData.name, contents: searchData.contents };
+		var ttsData = { option: "_search", search_word:searchData.search_word, img_url:"NULL", name:searchData.name, contents: searchData.contents };
 			const fs = require('fs');
 			const util = require('util');
 			const textToSpeech = require('@google-cloud/text-to-speech');
@@ -129,10 +129,10 @@ module.exports = (server, app) =>{
 			makeFolder(folder_name);
 			output_name =ttsData.name;
 			path = `${folder_name}/${output_name}.mp3`;
-			if (!(fs.existsSync(path))) {
+			//if (!(fs.existsSync(path))) {
 				//file exists
 				await w_File(path, response.audioContent, 'binary');
-			}
+			//}
 			}catch(err){
 				return;
 			}

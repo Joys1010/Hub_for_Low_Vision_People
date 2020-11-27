@@ -18,7 +18,7 @@ module.exports = {
 		 *             2. db collection 맞춰주기, 각 쇼핑몰별로(search_category) */ 
 		mongoose = require('mongoose');
 		/*db 이름 바꾸는 부분*/
-		mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone_front_test?retryWrites=true&w=majority',
+		mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority',
 			{ useNewUrlParser : true, useUnifiedTopology : true },
 			(err) => {
 				if(err) return console.error(err);
@@ -31,8 +31,8 @@ module.exports = {
 					console.log(word);
 
 					/*collection 바꾸는 부분*/
-					connection.db.collection("LVP_HUB", function(err, collection){
-						collection.find({"search_category":category} ,{"search_word":word}).sort("price", 1).toArray(function(err, data){
+					connection.db.collection("productData", function(err, collection){
+						collection.find({$and :[{"search_category":category} ,{"search_word":word}]}).sort("price", 1).toArray(function(err, data){
 							console.log(data); // it will print your collection data
 							resolve(data);
 						})
@@ -161,7 +161,7 @@ module.exports = {
 			await send_render_c(shopping_json);
 		}
 
-		if (db_data.length === 0) {
+		if (db_data ===null || db_data.length === 0) {
 
 			crawl_search(search_word,search_category);
 		}

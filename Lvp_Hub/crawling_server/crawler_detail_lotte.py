@@ -56,7 +56,7 @@ def crawler_detail_lotte(url):
     # 이마트 때무네
     print("")
     print(product_info)
-   driver.close()
+    driver.close()
 
 #url = "https://www.lotteon.com/p/product/LM2852520000002?sitmNo=LM2852520000002_001&mall_no=1&dp_infw_cd=SCH전복"
 crawler_detail_lotte(sys.argv[1])

@@ -16,9 +16,9 @@ from selenium.webdriver.chrome.options import Options
 import pymongo 
 import dns
 
-client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 db = client.LVP_HUB
-gmarket_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
+gmart_db = db.productData
 
 
 def crawler_gmarket(word):
@@ -29,37 +29,70 @@ def crawler_gmarket(word):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
-    #driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
+    #driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
+    driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
     #remember
     driver.get(url) 
     time.sleep(3) 
 
     some_tag = driver.find_elements_by_class_name('box__component')
-  
-    #print(some_tag)
-    for i in range(0,len(some_tag)-1):
+    output =[]
+    info =[]
+    for i in range(0,(len(some_tag)-1)):
             action = ActionChains(driver)
             action.move_to_element(some_tag[i]).perform()
+            #info.append(some_tag[i].get_attribute('innerHTML'))
+            tmp_soup = BeautifulSoup(some_tag[i].get_attribute('innerHTML'), 'lxml') 
+        
+            img = tmp_soup.select_one('div.box__item-container > div.box__image > a > img') #src
+            if img is None :
+                continue
+            title =tmp_soup.select_one("div.box__item-container > div.box__information > div.box__information-major > div.box__item-title > span > a > span.text__item")
+            price = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-price > div.box__price-seller > strong')
+            url = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-title > span > a')
+            review = tmp_soup.select_one('div.box__information > div.box__information-score > ul > li.list-item.list-item__pay-count > span.text')
+            if review is not None:
+                review = review.get_text()
+                review = re.findall("\d+",review.replace(",",""))
+                if len(review)==0:
+                    review = 0
+                else :
+                    review = review[0]
+            else :
+                review = 0
+            check_img = img['src']
+            if check_img[0] == "/":
+                check_img = check_img.replace('//gdimg','https://gdimg')
+            price_post = price.text.replace('원','')
+            price_post = price_post.replace("\n","")
+            price_post = price_post.replace(",","")
+            numbers = re.findall("\d+",price_post) 
+            data = {"search_category":"gmarket", "search_word":word, "product_name":title.text, "price":numbers[0], "image":check_img, "detail":url["href"],"review":review}
+            gmart_db.insert_one(data)
 
-    
-    html = driver.page_source
-   # print(html)
-    soup = BeautifulSoup(html, 'lxml') 
-   # browser.close()
-    output =[]
-    soup = soup.select('div.box__item-container ')
-    if soup in None:
-        return []
+            # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
+            tmp = [word ,title.text ,numbers[0] ,check_img ,url["href"],review]
+            output.append( tmp)
 
-    for tmp_soup in soup: 
-        img = tmp_soup.select_one(' div.box__image > a > img') #src
-        title =tmp_soup.select_one("div.box__information > div.box__information-major > div.box__item-title > span > a > span.text__item")
+            if i >30:
+                break
+           
+    driver.close()
+    '''
+    for soup in info:
+        
+        s_soup = 
+        tmp_soup = BeautifulSoup(soup.get_attribute('innerHTML'), 'lxml') 
+        
+        img = tmp_soup.select_one('div.box__item-container > div.box__image > a > img ') #src
+
+        title =tmp_soup.select_one("div.box__item-container > div.box__information > div.box__information-major > div.box__item-title > span > a > span.text__item")
         price = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-price > div.box__price-seller > strong')
         url = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-title > span > a')
         review = tmp_soup.select_one('div.box__information > div.box__information-score > ul > li.list-item.list-item__pay-count > span.text')
         if review is not None:
             review = review.get_text()
+            review = re.findall("\d+",review)
         else :
             review = 0
         check_img = img["src"]
@@ -70,54 +103,23 @@ def crawler_gmarket(word):
         price_post = price_post.replace(",","")
         numbers = re.findall("\d+",price_post) 
         data = {"search_category":"gmarket", "search_word":word, "product_name":title.text, "price":numbers[0], "image":check_img, "detail":url["href"],"review":review}
-        gmarket_db.insert_one(data)
+        #gmarket_db.insert_one(data)
 
         # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
         tmp = [word ,title.text ,numbers[0] ,check_img ,url["href"],review]
         output.append( tmp)
-    driver.close()
-
-    
-    
-    
-        '''
-    output =[]
-
-
-    for i in range (0,len(title)):
-        check_img = img[i]["src"]
-        if check_img[0] == "/":
-            check_img = check_img.replace('//gdimg','http://gdimg')
-        price_post = price[i].text.replace('원','')
-        price_post = price_post.replace("\n","")
-        price_post = price_post.replace(",","")
-        numbers = re.findall("\d+",price_post) 
-        data = {"search_category":"gmarket", "search_word":word, "product_name":title[i].text, "price":numbers[0], "image":check_img, "detail":url[i]["herf"]}
-        gmarket_db.insert_one(data)
-
-        # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
-        tmp = [word ,title[i].text ,numbers[0] ,check_img ,url[i]["href"]]
-
-        output.append( tmp)
-
     '''    
+
+    
+    
+    
     return output
 
 def check_gmarket(word):
     output =[]
     exist = False
-    csv_name = './crawling_server/crawling_gmarket_search.csv'
-    if not os.path.exists(csv_name):
-        output = crawler_gmarket(word)
-    else:
-        with open(csv_name,'r') as f: 
-            reader = csv.reader(f)
-            for c in reader:
-                if c[0]==word:
-                    output.append(c)
-                    exist = True
-        if exist == False  :
-            output = crawler_gmarket(word)
+    
+    output = crawler_gmarket(word)
             #return output
     if output is not None and len(output) >=0 :
         for i in range(0,len(output)):
@@ -125,3 +127,4 @@ def check_gmarket(word):
 
 #crawler_gmarket(sys.argv[1])
 check_gmarket(sys.argv[1])
+

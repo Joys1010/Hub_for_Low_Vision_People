@@ -3,13 +3,35 @@
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
 	<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+	<style>
+		table {
+		  width: 100%;
+		  border: 1px solid #444444;
+		  border-collapse: collapse;
+		}
+		th, td {
+		  border: 1px solid #444444;
+		  padding: 5px;
+		}
+		.sec{
+			background-color: lightgray;
+		}
+	</style>
 	<title>LVP HUB</title>
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
+	<link rel="icon" type="image/png" sizes="32x32" href="./fav_img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="./fav_img/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./fav_img/favicon-16x16.png">
+	<link rel="manifest" href="./fav_img/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="./fav_img/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+
 	</head>
 	<body>
 		<!-- Page Wrapper -->
@@ -44,7 +66,7 @@
 												</div>
 
 												<a href = <%=detail_data[0].detail_url%> >
-													<button id = "go_buy" class = "detail_joys tts" type="button" name="detailURL">구매하러가기</button>
+													<button id = "go_buy" class = "detail_joys tts" type="button" name="detailURL" style= "font-weight : bold;">구매하러가기</button>
 												</a>
 											</div>
 										</div>
@@ -65,10 +87,20 @@
 								<div class="chart-area-joys">
 
 									<hr style="width:100%">
-									<h2 class="h2">필수정보고시</h2>
+									<h3 class="h3" style = "font-weight : bold;">필수정보고시</h3>
 									<hr style="width:100%">
+									<table>
+										<tbody>
+											<% detail_data[0].essential.forEach(function(d) { %>
+											<tr style="font-size : 2rem">
+												<td class="sec" style="width: 300px" > <%= d[0] %></td><td><%= d[1] %></td>
 
-									
+											</tr>
+											<% }) %>
+
+										</tbody>
+									</table>
+
 
 								</div>
 							</div>
@@ -78,13 +110,17 @@
 								<div class="chart-area-joys">
 
 									<hr style="width:100%">
-									<h2 class="h2">상세정보</h2>
+									<h3 class="h3" style="font-weight : bold;">상세정보</h3>
 									<hr style="width:100%">
-									<p> <%= detail_data[0].detail_text %> </p>
+									<% detail_data[0].detail_text.forEach(function(d) { %>
+
+									<p style="font-size : 3rem"> <%= d %> </p>
+
+									<% }) %>
 									<!--<% detail_data.forEach(function(d) { %>
 									<p> <%=d.detail_text %> </p>
 									<% }) %>-->
-									<% detail_data.forEach(function(d) { %>
+									<%  detail_data.forEach(function(d) { %>
 
 									<!--<a href=<%d.image%>>-->
 									<img class="img_url" src = <%=d.image%> />
@@ -100,8 +136,8 @@
 			<div id="sidebar_wrapper" class="sidebar_wrapper_joys">
 				<ul class="bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
 					<div id="button_group" class="button_group">
-						<form action="/" id="first_page" name="first_page" style = "margin-top: 2rem;">
-							<button id="go_first" type="submit" onclick="firstPage()" class="button_joys tts" style="margin-top : 1rem">첫 화면<br/>이동하기
+						<form action="/" id="first_page" name="first_page">
+							<button id="go_first" type="submit" onclick="firstPage()" class="button_detail_joys tts">첫 화면<br/>이동하기
 							</button>
 							<script>
 								function firstPage() {
@@ -124,7 +160,7 @@
 
 						<button id = "out_btn"  class="button_detail_joys tts" onclick="zoomOut()"> 축소</button>
 
-						<button id = "go_up" type="button" onclick="goTop()" class="button_joys tts">위로<br/>이동하기</button>
+						<button id = "go_up" type="button" onclick="goTop()" class="button_detail_joys tts">위로<br/>이동하기</button>
 						<script>
 							function goTop() {
 								document.documentElement.scrollTop = 0;
@@ -135,7 +171,7 @@
 			</div>
 
 			<!--sidebar done-->
-			<div style="width : 300px;height:50px;"></div>
+			<div style="width : 500px;height:50px;"></div>
 
 			<script src="./scripts.js"></script>
 			<script src="./html_tts.js"></script>
@@ -147,4 +183,5 @@
 
 	</body>
 </html>
+
 

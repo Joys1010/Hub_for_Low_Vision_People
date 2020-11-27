@@ -14,14 +14,24 @@ def crawler_detail_emart(url):
  
     soup= BeautifulSoup(requests.get(url).content,'lxml')
   
-    _main_img = soup.select("#mainImg")
-    main_img ="http:"+_main_img[0]["src"]
+    main_img=""
+    _main_img = soup.select_one("#mainImg")
+    if(_main_img is not None):
+        main_img ="https:"+_main_img["src"]
+    else:
+        return
     print(main_img)
-    name = soup.select_one("div.cdtl_row_top > div.cdtl_col_rgt > div.cdtl_prd_info > h2").get_text()
+    name = soup.select_one("div.cdtl_row_top > div.cdtl_col_rgt > div.cdtl_prd_info > h2")
+    if name is not None :
+        name = name.get_text()
     print(name)
 
-    price = soup.select_one("div.cdtl_row_top > div.cdtl_col_rgt > div.cdtl_info_wrap > div.cdtl_optprice_wrap > div > span > em").get_text()
-    print(price+"원")
+    price = soup.select_one("div.cdtl_row_top > div.cdtl_col_rgt > div.cdtl_info_wrap > div.cdtl_optprice_wrap > div > span > em")
+    if price is not None :
+        price = price.get_text()
+    else :
+        price = "_"
+    print(str(price)+"원")
     __product_info = soup.select("#item_detail > div.cdtl_sec_area > div > div.cdtl_cont_info > div > table > tbody> tr")
     product_info =[]
  
@@ -44,7 +54,7 @@ def crawler_detail_emart(url):
             tip_text.append(i.get_text())
     frame_ = soup.select('#_ifr_html')
     
-    soup= BeautifulSoup(requests.get('http://emart.ssg.com'+frame_[0]['src']).content,'lxml')
+    soup= BeautifulSoup(requests.get('https://emart.ssg.com'+frame_[0]['src']).content,'lxml')
     nameList = soup.select('#wrap_ifr > div')
     imgList = soup.findAll("img")
     p_text=[]

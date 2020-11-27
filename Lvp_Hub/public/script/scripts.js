@@ -110,7 +110,11 @@ $('#ocr_all').on('click', function(){
 		name_tmp = this.src;
 	    });
 	//jjeong
-	    var name = name_tmp.split("/").reverse()[0];
+		
+	    var name  = name_tmp.replaceAll("%","")
+	    name= name.split("/").reverse()[0];
+	    if(name.length >10)
+		name = name.substr(0,10)
 
 	    console.log(name);
 	
@@ -130,7 +134,7 @@ socket.on('audioSource', data=>{
 	audioList.push(data);
 	//jjeong
 	//audioList.sort();
-	console.log(audioList);
+	console.log("list: "+audioList);
 })
 
 socket.on('ocrData', data=>{
@@ -142,7 +146,8 @@ socket.on('ocrData', data=>{
 function fn_up(){
 	if(index < audioList.length){
 		aud.setAttribute("src",audioList[index++]);
-	  	aud.play();
+	  //	aud.play();
+		play_form();
 		console.log(index);
 	}else{
 		alert("out of range");
@@ -154,7 +159,8 @@ function fn_down(){
 		alert("out of range");
 	}else{
 		aud.setAttribute("src",audioList[index--]);
-		aud.play();
+		//aud.play();
+		play_form();
 		console.log(index);
 	}
 }
@@ -289,6 +295,7 @@ function tts_btn(){
 						aud.setAttribute("src","");
 						var item_content = this.querySelector(".item_detail").textContent;
 						console.log(item_content);
+					
 						aud.setAttribute("src","./ding_dong.mp3");
 						play_form();
 						var data = { search_word: title ,contents : item_content, name :item_name};
@@ -327,8 +334,8 @@ var nowZoom = 100;
 
 function zoomIn()
 {
-
-	var Page = document.querySelector("body");
+	var Page = document.getElementById('content-wrapper')
+	//var Page = document.querySelector("body");
 	nowZoom = nowZoom + 10;
 	if (nowZoom >= 500) nowZoom = 500;
 	var zoom = nowZoom + '%';
@@ -340,7 +347,8 @@ function zoomIn()
 function zoomOut()
 {
 	
-	var Page = document.querySelector("body");
+	var Page = document.getElementById('content-wrapper')
+	//var Page = document.querySelector("body");
 	nowZoom = nowZoom - 10;
 	if (nowZoom <= 100) nowZoom = 100;
 	var zoom = nowZoom + '%';
@@ -348,41 +356,6 @@ function zoomOut()
 
 	return false;
 }
-
-
-
-/*function zoomIn()
-{
-	console.log("zoomin");
-	  var Page = document.querySelector("body");
-
-	  var zoom = parseInt(Page.style.zoom) + 10 +'%'
-	  Page.style.zoom = zoom;
-	  return false;
-}
-
-function zoomOut()
-{
-
-	console.log("zoomout");
-	  var Page = document.querySelector("body");
-	  var zoom = parseInt(Page.style.zoom) - 10 +'%'
-	  Page.style.zoom = zoom;
-	  return false;
-}*/
-
-
-/*function init(){
-	    in_btn.addEventListener("click",zoomIn);
-	    out_btn.addEventListener("click",zoomOut);
-}
-
-init();*/
-
-
-
-
-
 
 
 

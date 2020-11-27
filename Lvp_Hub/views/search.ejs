@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta content="width=device-width, initial-scale=1.0" name="viewport">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
@@ -13,6 +13,13 @@
 		<title>LVP HUB</title>
 		<link rel='stylesheet' href='/stylesheets/style.css'/>
 
+		<link rel="icon" type="image/png" sizes="32x32" href="./fav_img/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="./fav_img/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="./fav_img/favicon-16x16.png">
+		<link rel="manifest" href="./fav_img/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="./fav_img/ms-icon-144x144.png">
+		<meta name="theme-color" content="#ffffff">
 	</head>
 	<body>
 		<!-- Page Wrapper -->
@@ -58,18 +65,9 @@
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
 													<p> <%= e.product_name %> </p>
 													<p> 리뷰 : <%= e.review %> </p>
-													<p style="background-color:#f6c23e;"> <%= e.price %>원 </p>
+													<p style="background-color:#f6c23e;">가격 : <%= e.price %>원 </p>
 												</div>
-												<!--<div>
-		    <div id = "id_for_tts <%= idx %>" class="item_detail_name item_detail" style="font-size : 1.5rem; color : black;">
-		    <p> <%= e.product_name %> </p>
-		    </div>
-		    <p> </p>
-												<div id = "id_for_tts <%= idx %>" class="item_detail_cost item_detail" style="font-size : 1.5rem; color : black">
-													<p> <%= e.price %>원 </p>
-												</div>
-												</div>
-												<p> </p>-->
+												
 
 												<form action="/detail" method="post">
 													<button class = "detail_joys tts" type="submit" id="detail<%= idx %>" name="detailURL" style="font-weight : bold;">상세설명보기</button>
@@ -96,7 +94,7 @@
 				<div id="sidebar_wrapper" class="sidebar_wrapper_joys">
 					<ul class="bg-gradient-primary sidebar_joys sidebar-dark accordion" id="buttonBar">
 						<div id="button_group" class="button_group">
-							<form action="/" id="first_page" name="first_page" style = "margin-top: 2rem;">
+							<form action="/" id="first_page" name="first_page">
 								<button id="go_first" type="submit" onclick="firstPage()" class="button_joys tts" style="margin-top : 1rem">첫 화면<br/>이동하기
 								</button>
 								<script>
@@ -129,7 +127,7 @@
 				</div>
 				<!--sidebar done-->
 
-				<div style="width : 300px;height:50px;"></div>
+				<div style="width : 500px;height:50px;"></div>
 
 			<script src = "./scripts.js"></script>
 			<script src = "./html_tts.js"></script>
@@ -138,6 +136,7 @@
 			</div>
 	</body>
 </html>
+
 
 
 

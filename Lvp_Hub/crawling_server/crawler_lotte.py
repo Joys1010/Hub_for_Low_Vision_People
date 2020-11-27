@@ -12,10 +12,9 @@ from selenium.webdriver.chrome.options import Options
 import pymongo 
 import dns
 
-client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/capstone?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 db = client.LVP_HUB
-lotte_db = db.productData  #collection 선택 ~ emart, lotte, gmarket 있는데 테스트 용으로 test table도 만들어놨어 ! 
-
+lotte_db = db.productData
 
 
 def crawler_lotte(word):
@@ -30,12 +29,13 @@ def crawler_lotte(word):
     #remember
     driver.get(url) 
     time.sleep(3) 
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'lxml') 
-    #soup= BeautifulSoup(requests.get(url).content,'lxml')
+
     output =[]
-    soup = soup.select('li.srchProductItem > div')
-    for tmp_soup in soup:
+   
+    info = driver.find_elements_by_css_selector('li.srchProductItem > div')
+
+    for soup in info:
+        tmp_soup = BeautifulSoup(soup.get_attribute('innerHTML'), 'lxml') 
         title =  tmp_soup.select_one(' a > div > div:nth-child(1) >div.srchProductUnitTitle')
         price = tmp_soup.select_one("a  div div:nth-child(2)  div  span.srchCurrentPrice ")
         url =  tmp_soup.select(" a ")
@@ -55,8 +55,7 @@ def crawler_lotte(word):
 
         tmp = [word,title_post , numbers[0],img[0]["src"],url[0]["href"],review]
         output.append( tmp)
-        driver.close()
-
+    driver.close()
     return output
 
     #sys.argv[1]
@@ -74,3 +73,4 @@ def check_lotte(word):
 
 check_lotte(sys.argv[1])
 #crawler_lotte(sys.argv[1])
+

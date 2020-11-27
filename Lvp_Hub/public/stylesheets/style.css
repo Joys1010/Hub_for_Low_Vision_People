@@ -382,6 +382,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
+  font-weight : bold;
   font-size: 3rem;
 }
 
@@ -10502,7 +10503,7 @@ a:focus {
 }
 
 .sidebar_joys {
-  width : 350px;
+  width : 500px;
   min-height: 100vh;
   position : fixed;
   top:0;
@@ -10519,9 +10520,9 @@ a:focus {
 }
 
 .button_joys{
-  width : 280px;
-  height : 130px;
-  font-size : 2.5rem;
+  width : 450px;
+  height : 145px;
+  font-size : 36pt;
   font-weight : bold;
   margin-bottom : 0.8rem;
   margin-left : 1rem;
@@ -10539,7 +10540,7 @@ a:focus {
   background-color : #fb9a1c;
 }
 .button_detail_joys{
-  width : 280px;
+  width : 450px;
   height : 120px;
   font-size : 2rem;
   font-weight : bold;
@@ -11504,3 +11505,4 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
