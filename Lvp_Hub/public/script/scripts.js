@@ -111,7 +111,7 @@ $('#ocr_all').on('click', function(){
 	    });
 	//jjeong
 		
-	    var name  = name_tmp.replaceAll("%","")
+	    var name  = name_tmp.replace(/%/g,"")
 	    name= name.split("/").reverse()[0];
 	    if(name.length >10)
 		name = name.substr(0,10)

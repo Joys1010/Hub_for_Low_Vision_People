@@ -62,7 +62,7 @@ def crawler_gmarket(word):
                 review = 0
             check_img = img['src']
             if check_img[0] == "/":
-                check_img = check_img.replace('//gdimg','https://gdimg')
+                check_img = check_img.replace('//gdimg','http://gdimg')
             price_post = price.text.replace('원','')
             price_post = price_post.replace("\n","")
             price_post = price_post.replace(",","")

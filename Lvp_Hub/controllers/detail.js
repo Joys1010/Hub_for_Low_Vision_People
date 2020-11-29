@@ -63,7 +63,14 @@ module.exports={
 
 						    if(results[results.length-2] != "" && results[results.length-2] != null ){
 
-							    var tmp= results[results.length-2].replaceAll("[","").replaceAll("]","").replaceAll("\\t","").replaceAll("\t","").replaceAll("\"","").replaceAll(",","");
+							   var tmp= results[results.length-2];
+
+							    tmp=tmp.replace('[', "");
+							    tmp=tmp.replace('[', "");
+							    tmp=tmp.replace(/]/g, "");
+							    tmp=tmp.replace(/\\t/g, "");
+							    tmp=tmp.replace(/\t/g, "");
+							    tmp=tmp.replace(/,/g, "");
 							    _tmp = tmp.split("\\n");
 							    for (var i=0; i<_tmp.length;i++){
 								    __tmp = tmp.split(".");

@@ -17,7 +17,7 @@ def crawler_detail_emart(url):
     main_img=""
     _main_img = soup.select_one("#mainImg")
     if(_main_img is not None):
-        main_img ="https:"+_main_img["src"]
+        main_img ="http:"+_main_img["src"]
     else:
         return
     print(main_img)
@@ -54,7 +54,7 @@ def crawler_detail_emart(url):
             tip_text.append(i.get_text())
     frame_ = soup.select('#_ifr_html')
     
-    soup= BeautifulSoup(requests.get('https://emart.ssg.com'+frame_[0]['src']).content,'lxml')
+    soup= BeautifulSoup(requests.get('http://emart.ssg.com'+frame_[0]['src']).content,'lxml')
     nameList = soup.select('#wrap_ifr > div')
     imgList = soup.findAll("img")
     p_text=[]

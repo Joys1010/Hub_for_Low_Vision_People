@@ -19,8 +19,9 @@ emart_db = db.productData
 
 def crawler_emart(word):
     start = time.time()
-    url = 'https://emart.ssg.com/search.ssg?target=all&query='+word
-    soup= BeautifulSoup(requests.get(url).content,'lxml')
+    url = 'http://emart.ssg.com/search.ssg?target=all&query='+word
+
+    soup= BeautifulSoup(requests.get(url,verify=False).content,'lxml')
     cunit_info = soup.select('#idProductImg > li.cunit_t232')
     output =[]
     for i in range(0,len(cunit_info)):
@@ -39,9 +40,9 @@ def crawler_emart(word):
         check_img = img["src"]
         check_url = url["href"]
         if check_img[0] == "/":
-            check_img = 'https:'+check_img
+            check_img = 'http:'+check_img
         if check_url[0]!="h":
-            check_url = "https://emart.ssg.com/" + check_url
+            check_url = "http://emart.ssg.com/" + check_url
         price_post = price.text.replace('원','')
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")

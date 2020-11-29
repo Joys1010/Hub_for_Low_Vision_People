@@ -3,7 +3,7 @@
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
 	<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
@@ -91,9 +91,9 @@
 									<hr style="width:100%">
 									<table>
 										<tbody>
-											<% detail_data[0].essential.forEach(function(d) { %>
-											<tr style="font-size : 2rem">
-												<td class="sec" style="width: 300px" > <%= d[0] %></td><td><%= d[1] %></td>
+											<% detail_data[0].essential.forEach(function(d ,idx) { %>
+											<tr class="dyn_tts" style="font-size : 2rem">
+												<td  class="sec" style="width: 300px" > <%= d[0] %></td><td><%= d[1] %></td>
 
 											</tr>
 											<% }) %>
@@ -110,11 +110,11 @@
 								<div class="chart-area-joys">
 
 									<hr style="width:100%">
-									<h3 class="h3" style="font-weight : bold;">상세정보</h3>
+									<h3 class="h3 dyn_tts" style="font-weight : bold;">상세정보</h3>
 									<hr style="width:100%">
 									<% detail_data[0].detail_text.forEach(function(d) { %>
 
-									<p style="font-size : 3rem"> <%= d %> </p>
+									<p class="dyn_tts" style="font-size : 3rem"> <%= d %> </p>
 
 									<% }) %>
 									<!--<% detail_data.forEach(function(d) { %>
