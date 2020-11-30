@@ -6,14 +6,29 @@ import time
 import pandas as pd
 import sys
 import requests
-
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 def crawler_detail_gmarket(url):
     
     soup= BeautifulSoup(requests.get(url).content,'lxml')
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    #driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
+    driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
+    driver.get(url) 
+    time.sleep(3) 
+    ##container > div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on > a > img
+    main_img =driver.find_elements_by_css_selector(' div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on')
     ##stickyTopParent > div.stickyVisual.vue-affix.affix-top > div > div.swiper-container.largeImgSlide.default.swiper-container-initialized.swiper-container-vertical > div > div > div > img
-    main_img = soup.select("#container > div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on ")#> a > img")
-    print(main_img)
-    
+    #main_img = soup.select("#container > div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on ")#> a > img")
+    main_img = BeautifulSoup(main_img[0].get_attribute('innerHTML'), 'lxml') 
+    main_img = main_img.select(" a > img")
+   
+    print(main_img[0]['src'])
+    driver.close()
+
     name = soup.select_one("#itemcase_basic > h1").get_text()
     print(name) 
 
@@ -52,3 +67,4 @@ def crawler_detail_gmarket(url):
 crawler_detail_gmarket(sys.argv[1])
 #url = "http://item.gmarket.co.kr/Item?goodscode=1915402492"
 #crawler_detail_gmarket(url)
+
