@@ -41,22 +41,33 @@ module.exports = {
 					/*collection 바꾸는 부분*/
 					
 					async function test(){
+						if(category!=null & category.length <=3){
 						for(var i = 0 ; category!=null && i < category.length ; i++){
 							connection.db.collection("productData", function(err, collection){
-	
 								var cat = category[i];
-	
 								collection.find({"search_category": category[i], "search_word":word}).toArray( function(err, data){
 	
-									//console.log("yae~", data); // it will print your collection data
 									if(data === undefined || data.length == []){
 										checked.push(cat);
-										//console.log("checked : ", cat);
 									}
 									
 								})
 							});
 						}
+					  }else if(category != null){
+					  	connection.db.collection("productData", function(err, collection){
+								var cat = category;
+								collection.find({"search_category": cat, "search_word":word}).toArray( function(err, data){
+	
+									if(data === undefined || data.length == []){
+										checked.push(cat);
+									}
+									
+								})
+							});
+
+					  
+					  }
 					}
 					test()
 					setTimeout(resolve, 3500)
