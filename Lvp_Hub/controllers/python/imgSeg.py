@@ -12,8 +12,8 @@ def makeFolder():
 
 def imgSeg(imgCount, img_urls):
 
-        #savePath = makeFolder()
-        #print(savePath)
+        savePath = makeFolder()
+        print(savePath)
         count = 0
         path = img_urls.split(',')
         
@@ -23,7 +23,7 @@ def imgSeg(imgCount, img_urls):
             path.remove('/')
             imgCount = imgCount -1
 
-        for i in range(imgCount)):
+        for i in range(imgCount):
             from urllib import request
             import cv2
             import numpy as np

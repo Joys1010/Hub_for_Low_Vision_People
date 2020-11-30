@@ -19,7 +19,9 @@
 		  padding: 5px;
 		}
 		.sec{
-			background-color: lightgray;
+		  background-color: #f6c23e;
+		  color : black;
+		  font-weight : bold;
 		}
 	</style>
 	<title>LVP HUB</title>
@@ -92,7 +94,7 @@
 									<table>
 										<tbody>
 											<% detail_data[0].essential.forEach(function(d ,idx) { %>
-											<tr class="dyn_tts" style="font-size : 2rem">
+											<tr class="dyn_tts" style="font-size : 2rem; color : white; font-weight : bold;">
 												<td  class="sec" style="width: 300px" > <%= d[0] %></td><td><%= d[1] %></td>
 
 											</tr>
@@ -171,7 +173,7 @@
 			</div>
 
 			<!--sidebar done-->
-			<div style="width : 500px;height:50px;"></div>
+			<div style="width : 400px;height:50px;"></div>
 
 			<script src="./scripts.js"></script>
 			<script src="./html_tts.js"></script>
@@ -183,5 +185,6 @@
 
 	</body>
 </html>
+
 
 

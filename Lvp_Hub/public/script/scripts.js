@@ -195,7 +195,6 @@ function speak_crawling(){
 }
 function play_form(){
 	aud.playbackRate=0.8
-	console.log("jjeong tts play_form");
     var playPromise = aud.play();
     if (playPromise !== undefined) {
             playPromise.then(function() {
@@ -252,6 +251,16 @@ function play_form(){
     }
 }*/
 
+function makeid(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 
 function tts_btn(){
 	btn_click = !btn_click;
@@ -262,26 +271,31 @@ function tts_btn(){
 		aud.setAttribute("src",'./notice_text_tts.mp3'); 
 		play_form();
 		$('.dyn_tts').each(function() {
-			var item_name = "dyn_tts";
 			var path ="";
 			$(this).hover(
 				function(){
 					if(btn_click){
 						aud.setAttribute("src","");
 						var item_content = this.textContent;
-						console.log(item_content);
+						var item_name = makeid(10);
+								//console.log(item_name);
+
+						console.log(item_name);
+
+
+						aud.setAttribute("src","./ding_dong.mp3");
+						play_form();
 						var data = { search_word: "dyn_tts" ,contents : item_content, name :item_name};
 						socket.emit('textTTS', data);
 						socket.on('audioDone', data=>{
+						console.log(data);
 							path = data ;
 							aud.setAttribute("src",path);
 							play_form();
-							console.log("mouse over");
 						})
 					}
 				},
 				function(){
-					console.log("off");
 					aud.pause();
 				}
 
@@ -305,13 +319,11 @@ function tts_btn(){
 							aud.setAttribute("src",path);
 
 							play_form();
-							console.log("mouse over");
 						})
 					}
 				},
 				function(){
 
-					console.log("off");
 					aud.pause();
 
 				}

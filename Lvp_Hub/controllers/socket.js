@@ -118,10 +118,11 @@ module.exports = (server, app) =>{
 			folder_name = `./speaking/search/${search_word}`
 			makeFolder(folder_name);
 			output_name =ttsData.name;
+
 			path = `${folder_name}/${output_name}.mp3`;
 			//if (!(fs.existsSync(path))) {
 				//file exists
-				await w_File(path, response.audioContent, 'binary');
+			await w_File(path, response.audioContent, 'binary');
 			//}
 			}catch(err){
 				return;

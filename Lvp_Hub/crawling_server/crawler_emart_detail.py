@@ -51,7 +51,7 @@ def crawler_detail_emart(url):
     tip_text=[]
     if text is not None :
         for i in text :
-            tip_text.append(i.get_text())
+            tip_text.append(i.get_text().replace("\n",''))
     frame_ = soup.select('#_ifr_html')
     
     soup= BeautifulSoup(requests.get('http://emart.ssg.com'+frame_[0]['src']).content,'lxml')

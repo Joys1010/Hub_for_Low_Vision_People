@@ -164,7 +164,7 @@ connection.db.collection("productData", function(err, collection){
 			await send_render_c(shopping_json);
 		}
 
-		if (db_data ===undefined) {
+		if (db_data ===undefined || db_data.length === 0) {
 
 			crawl_search(search_word,search_category);
 		}

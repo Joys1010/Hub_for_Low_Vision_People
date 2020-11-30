@@ -15,7 +15,7 @@ import dns
 client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 db = client.LVP_HUB
 lotte_db = db.productData
-
+MAX_COUNT = 30
 
 def crawler_lotte(word):
    # word="딸기"
@@ -33,7 +33,7 @@ def crawler_lotte(word):
     output =[]
    
     info = driver.find_elements_by_css_selector('li.srchProductItem > div')
-
+    count =0
     for soup in info:
         tmp_soup = BeautifulSoup(soup.get_attribute('innerHTML'), 'lxml') 
         title =  tmp_soup.select_one(' a > div > div:nth-child(1) >div.srchProductUnitTitle')
@@ -58,6 +58,9 @@ def crawler_lotte(word):
 
         tmp = [word,title_post , numbers,img[0]["src"],url[0]["href"],review]
         output.append( tmp)
+        if count >= MAX_COUNT :
+            break
+        count = count+1
     driver.close()
     return output
 

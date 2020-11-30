@@ -14,6 +14,7 @@ import pymongo
 import dns
 
 client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
+MAX_COUNT = 30
 db = client.LVP_HUB
 emart_db = db.productData
 
@@ -53,7 +54,8 @@ def crawler_emart(word):
         emart_db.insert_one(data)
         tmp = [word,title,numbers,check_img,check_url,review]
         output.append(tmp)
-        
+        if i >= MAX_COUNT :
+            break
     
     if len(title)==0:
         return []

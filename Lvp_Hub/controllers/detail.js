@@ -71,6 +71,7 @@ module.exports={
 							    tmp=tmp.replace(/\\t/g, "");
 							    tmp=tmp.replace(/\t/g, "");
 							    tmp=tmp.replace(/,/g, "");
+							    tmp=tmp.replace(/\n/g, "");
 							    _tmp = tmp.split("\\n");
 							    for (var i=0; i<_tmp.length;i++){
 								    __tmp = tmp.split(".");
@@ -104,7 +105,7 @@ module.exports={
             await mall_crawl(img_url); 
 	function send_render(src){
              
-                console.log(src);
+                //console.log(src);
 
 
                 res.render('../views/detail.ejs',{detail_data : src});//, {toPrint : result});

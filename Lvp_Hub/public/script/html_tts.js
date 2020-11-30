@@ -1,3 +1,4 @@
+/*
 var aud = document.querySelector("#au");
 function play_form(){
     aud.playbackRate=0.8
@@ -8,7 +9,7 @@ function play_form(){
             }).catch(function(error) {
             });
         }
-}
+}*/
 var tts_click = false;
 function tts_html(){
     tts_click = !tts_click;

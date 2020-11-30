@@ -93,6 +93,7 @@ p {
   text-align: center;
   font-size : 2.5em;
   font-weight : bold;
+  color : #f6c23e;
 }
 
 abbr[title],
@@ -370,7 +371,7 @@ h1, h2, h3, h4, h5, h6,
   margin-bottom: 0.5rem;
   font-weight: bold;
   line-height: 1.2;
-  color : black;
+  color : #f6c23e;
 }
 
 h1, .h1 {
@@ -2428,7 +2429,7 @@ fieldset:disabled a.btn {
 	width:1px;
 	height:1px;
 	padding:0;
-	margin:-1px;
+	margin:10px;
 	overflow:hidden;
 	clip:rect(0,0,0,0);
 	border:0;
@@ -2436,16 +2437,16 @@ fieldset:disabled a.btn {
 .check_joys input[type="checkbox"] + label{
 	display:inline-block;
 	position:relative;
-	padding-left:26px;
+	padding-left:60px;
 	cursor:pointer;
 }
 .check_joys input[type="checkbox"] + label:before{
 	content:'';
 	position:absolute;
 	left:0; 
-	top:3px; 
-	width:25px; 
-	height:25px; 
+	top:10px; 
+	width:50px; 
+	height:50px; 
 	text-align:center; 
 	background:white; 
 	border: 2px solid black; 
@@ -2454,11 +2455,11 @@ fieldset:disabled a.btn {
 .check_joys input[type="checkbox"]:checked + label:after{
 	content: '';
 	position:absolute; 
-	top:3px; 
+	top:10px; 
 	left:0; 
-	width:25px; 
-	height:25px;
-	border : 2px solid black;
+	width:50px; 
+	height:50px;
+	border : 2px solid white;
 	background-color:#f6c23e;
 }
 
@@ -4595,6 +4596,7 @@ input[type="button"].btn-block {
   flex-direction: row;
   justify-content: center;
   vertical-align: middle;
+  background-color : black;
 }
 .item_info {
   display : flex;
@@ -4618,7 +4620,7 @@ input[type="button"].btn-block {
   max-height: inherit;
   padding: 1rem;
   margin: auto;
-  border : 3px solid #120a86;
+  border : 3px solid white;
   border-radius : 5px;
 }
 
@@ -9942,6 +9944,7 @@ a:focus {
 
 #wrapper {
   display: flex;
+  background-color : black;
 }
 
 #wrapper #content-wrapper {
@@ -10503,7 +10506,7 @@ a:focus {
 }
 
 .sidebar_joys {
-  width : 500px;
+  width : 350px;
   min-height: 100vh;
   position : fixed;
   top:0;
@@ -10520,7 +10523,7 @@ a:focus {
 }
 
 .button_joys{
-  width : 450px;
+  width : 300px;
   height : 145px;
   font-size : 36pt;
   font-weight : bold;
@@ -10540,7 +10543,7 @@ a:focus {
   background-color : #fb9a1c;
 }
 .button_detail_joys{
-  width : 450px;
+  width : 300px;
   height : 120px;
   font-size : 2rem;
   font-weight : bold;
@@ -10562,7 +10565,7 @@ a:focus {
 .detail_joys{
   width : 340px;
   font-size:3rem;
-  background-color : black;
+  background-color :#8405ba;
   color : white;
   border : 3px solid black;
   border-radius : 5px;
@@ -11505,4 +11508,5 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
 

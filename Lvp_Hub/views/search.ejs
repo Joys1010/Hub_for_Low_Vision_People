@@ -28,19 +28,70 @@
 				<h1 class="h1 dyn_tts">LVP HUB ITEMS</h1>
 				<br/>
 				<h2 class="h2 dyn_tts" style = "font-weight : bold;"> 검색어 : <%= data[0].search_word %> </h2>
-				<form action="/sort" accept-charset="utf-8" method = "post" id="sorting" name=sortingSelect">
-					<select name="sort_category" form="sortAction" style= "font-weight : bold; margin-top : 2rem; margin-bottom : 2rem;  font-size : 4rem; width : 500px; height : 100px; ">
-						<option style = "font-weight : bold;"value="review_small">리뷰 많은 순</option>
-						<option style = "font-weight : bold;"value="review_many">리뷰 적은 순</option>
-						<option style = "font-weight : bold;"value="price_high">가격 높은 순</option>
-						<option style = "font-weight : bold;"value="price_low">가격 낮은 순</option>
-					</select>
-					<button type ="submit" class="btn-primary-joys" style="font-weight : bold;" onclick=sortFunc()">정렬하기</button>
-				</form>
+				<br/>
+				
+
+				<button id = "btnReviewHOrder" style = "font-weight : bold; font-size :4rem; margin-bottom : 2rem; background-color : #8405ba; color : white; border-radius : 10px; border : 2px solid black;" data-datanm = "review"> 리뷰많은순</button>
+				
+				<button id = "btnReviewLOrder" style = "font-weight : bold; font-size :4rem; margin-bottom : 2rem; background-color : #8405ba; color : white; border-radius : 10px; border : 2px solid black;" data-datanm = "review"> 리뷰적은순</button>
+				
+				<br/>
+
+				<button id = "btnPriceHOrder" style = "font-weight : bold; font-size :4rem; background-color : #8405ba; color : white; border-radius : 10px; border : 2px solid black;" data-datanm = "price"> 가격높은순</button>
+
+				<button id = "btnPriceLOrder" style = "font-weight : bold; font-size :4rem; background-color : #8405ba; color : white; border-radius : 10px; border : 2px solid black;" data-datanm = "price"> 가격낮은순</button>
+				<br/>
+<script>
+
+	$("#btnReviewHOrder").click(function() {
+		var dataNm = $(this).data("datanm");
+		listSort_rh($(this), dataNm);
+
+	});
+
+	function listSort_rh($targetObj, dataNm) {
+		$("#NeedSort").html(
+			$("#NeedSort li").sort(function(a,b){
+				console.log("here");
+				return $(b).data(dataNm) - $(a).data(dataNm);
+			})
+			);
+	}
+	
+	$("#btnReviewLOrder").click(function() {
+		console.log("clicked sort");
+		var dataNm = $(this).data("datanm");
+		listSort_rl($(this), dataNm);
+	});
+
+	function listSort_rl($targetObj, dataNm) {
+		$("#NeedSort").html(
+			$("#NeedSort li").sort(function(a,b){
+				return $(a).data(dataNm) - $(b).data(dataNm);
+			})
+			);
+	}
+	$("#btnPriceHOrder").click(function() {
+		var dataNm = $(this).data("datanm");
+		listSort_rh($(this), dataNm);
+
+	});
+
+
+	$("#btnPriceLOrder").click(function() {
+		console.log("clicked sort");
+		var dataNm = $(this).data("datanm");
+		listSort_rl($(this), dataNm);
+	});
+
+</script>
+						    
 				<br/>
 
 				<div class="items">
+					<ul id="NeedSort">
 					<% data.forEach(function(e, idx) { %>
+					<li data-review = "<%= e.review %>" data-price = "<%= e.price %>" style = "list-style : none;">
 					<!-- item1 start-->
 					<div id="item_one" class="row" style="margin-bottom : 1rem;">
 						<!-- Area Chart -->
@@ -65,7 +116,7 @@
 												<div class="item_detail" style="font-size : 1.5rem; color : black;">
 													<p> <%= e.product_name %> </p>
 													<p> 리뷰 : <%= e.review %> </p>
-													<p style="background-color:#f6c23e;">가격 : <%= e.price %>원 </p>
+													<p style="background-color:#f6c23e; color : black;">가격 : <%= e.price %>원 </p>
 												</div>
 												
 
@@ -86,7 +137,9 @@
 					</div>
 
 					<div style="clear:both;"> </div>
+					</li>
 					<% }) %>
+					</ul>
 					<!--item1 done-->
 				</div>
 			</div>
@@ -127,7 +180,7 @@
 				</div>
 				<!--sidebar done-->
 
-				<div style="width : 500px;height:50px;"></div>
+				<div style="width : 400px;height:50px;"></div>
 
 			<script src = "./scripts.js"></script>
 			<script src = "./html_tts.js"></script>
@@ -136,6 +189,7 @@
 			</div>
 	</body>
 </html>
+
 
 
 
