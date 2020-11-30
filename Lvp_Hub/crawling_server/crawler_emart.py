@@ -32,6 +32,7 @@ def crawler_emart(word):
         review = tmp_soup.select_one(" div.cunit_info > div.cunit_app > div > span > em")
         if review is not None :
             review =review.get_text()
+            review = review.replace(",","")
         else :
             review =0
         img = tmp_soup.select_one(" div.cunit_prod > div.thmb > a > img ")
@@ -46,10 +47,11 @@ def crawler_emart(word):
         price_post = price.text.replace('원','')
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
-        numbers = re.findall("\d+",price_post) 
-        data = {"search_category":"emart", "search_word":word, "product_name":title, "price":numbers[0], "image":check_img, "detail":check_url, "review" :review}
+        numbers = re.findall("\d+",price_post)
+        numbers =numbers[0].replace(",","")
+        data = {"search_category":"emart", "search_word":word, "product_name":title, "price":int((numbers)), "image":check_img, "detail":check_url, "review" :int(review)}
         emart_db.insert_one(data)
-        tmp = [word,title,numbers[0],check_img,check_url,review]
+        tmp = [word,title,numbers,check_img,check_url,review]
         output.append(tmp)
         
     

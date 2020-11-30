@@ -58,6 +58,7 @@ def crawler_gmarket(word):
                     review = 0
                 else :
                     review = review[0]
+                    review = review.replace(",","")
             else :
                 review = 0
             check_img = img['src']
@@ -67,11 +68,11 @@ def crawler_gmarket(word):
             price_post = price_post.replace("\n","")
             price_post = price_post.replace(",","")
             numbers = re.findall("\d+",price_post) 
-            data = {"search_category":"gmarket", "search_word":word, "product_name":title.text, "price":numbers[0], "image":check_img, "detail":url["href"],"review":review}
+            data = {"search_category":"gmarket", "search_word":word, "product_name":title.text, "price":int(numbers[0].replace(",","")), "image":check_img, "detail":url["href"],"review":int(review)}
             gmart_db.insert_one(data)
 
             # 앞에서부터 순서대로 검색어 // 상품명// 가격 // 이미지 // 상세 
-            tmp = [word ,title.text ,numbers[0] ,check_img ,url["href"],review]
+            tmp = [word ,title.text ,numbers[0].replace(",","") ,check_img ,url["href"],review]
             output.append( tmp)
 
             if i >30:

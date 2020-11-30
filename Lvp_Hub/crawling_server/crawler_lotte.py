@@ -42,18 +42,21 @@ def crawler_lotte(word):
         img = tmp_soup.select(" div a div.srchThumbImageWrap img")
         review = tmp_soup.select_one('a > div > div:nth-child(1) > div.srchProductStatusArea > div > span.srchRatingScore > strong')
         if review is not None:
-            review = review.get_text().replace('(','').replace(')','')
+            review = review.get_text().replace('(','').replace(')','').replace(",","")
+            if review == '0':
+                review =0
         else :
             review = 0
         title_post = title.text.replace("\n","")
         price_post = price.text.replace('원','')
         price_post = price_post.replace("\n","")
         price_post = price_post.replace(",","")
-        numbers = re.findall("\d+",price_post) 
-        data = {"search_category":"lotte", "search_word":word, "product_name":title_post, "price":numbers[0], "image":img[0]["src"], "detail":url[0]["href"],"review":review}
+        numbers = re.findall("\d+",price_post)#.replace(",","") 
+        numbers = numbers[0].replace(",","")
+        data = {"search_category":"lotte", "search_word":word, "product_name":title_post, "price":int(numbers), "image":img[0]["src"], "detail":url[0]["href"],"review":int(review)}
         lotte_db.insert_one(data)
 
-        tmp = [word,title_post , numbers[0],img[0]["src"],url[0]["href"],review]
+        tmp = [word,title_post , numbers,img[0]["src"],url[0]["href"],review]
         output.append( tmp)
     driver.close()
     return output

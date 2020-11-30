@@ -31,11 +31,13 @@ module.exports = {
 					console.log(word);
 
 					/*collection 바꾸는 부분*/
-					connection.db.collection("productData", function(err, collection){
-						collection.find({$and :[{"search_category":category} ,{"search_word":word}]}).sort("price", 1).toArray(function(err, data){
+connection.db.collection("productData", function(err, collection){
+						
+						collection.find({"search_category": {$in :category}, "search_word":word}).sort({price : 1}).toArray(function(err, data){
 							console.log(data); // it will print your collection data
 							resolve(data);
 						})
+
 					});
 				});
 			});
@@ -63,36 +65,18 @@ module.exports = {
 				args: [search_word]
 			};
 
-			/*
-			var mall;
-
-			if (search_category == 'emart') {
-				mall = './crawling_server/crawler_emart.py';
-			} else if (search_category == 'lotte') {
-				mall = './crawling_server/crawler_lotte.py';
-			} else if (search_category == 'gmarket') {
-				mall = './crawling_server/crawler_gmarket.py';
-			}
-			else {
-
-				mall = './crawling_server/crawler_lotte.py';
-			}
-
-			*/
 					var undefine_error = false;
 
 			var shopping_json = []
-			function mall_crawl(mall,category,word) {
+			function mall_crawl(mall,_category,word) {
 				return new Promise((resolve, reject) => {
 					try {
-						console.log(mall+category+word)
 						PythonShell.run(mall, options, (err, results) => {
-							console.log(mall+category+word)
 							if (err) throw err;
 							for (var i = 0;results!=null && i < results.length; i++) {
 								var a = results[i].split('\'');
 								var data = {
-									"search_category" : category,
+									"search_category" : _category,
 									"search_word" : word,
 									"product_name": a[3],
 									"price": a[5],
@@ -113,10 +97,9 @@ module.exports = {
 			};
 			//await mall_crawl();
 	//joys adjusted : check plz
-			if (search_category.length<3){
+			if (search_category.length<=3){
 			for (var i = 0; i< search_category.length; i++) {
 				var mall;
-				console.log(search_category[i]+search_word)
 				if (search_category[i] == 'emart') {
 					
 					mall = './crawling_server/crawler_emart.py';
@@ -153,15 +136,35 @@ module.exports = {
 			await mall_crawl(mall, search_category,search_word);
 		}
 
+			function sort_by_key(array, key)
+			{
+				return array.sort(function(a, b)
+					{
+						var x = a[key]; var y = b[key];
+						return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+					});
+			}
+
+			/*
+			function sortByWins(obj) {
+				return Object.keys(obj).sort(function(i, j) {
+					return obj[i].review - obj[j].review;
+				}).reduce(function (result, key) {
+					result[key] = obj[key];
+					return result;
+				}, {});
+			}*/
 			function send_render_c(src){
 
+				//sorting continue...
+				//src = sort_by_key(src, 'review');
 				res.render('../views/search.ejs', {data : src});
 
 			}
 			await send_render_c(shopping_json);
 		}
 
-		if (db_data ===null || db_data.length === 0) {
+		if (db_data ===undefined) {
 
 			crawl_search(search_word,search_category);
 		}

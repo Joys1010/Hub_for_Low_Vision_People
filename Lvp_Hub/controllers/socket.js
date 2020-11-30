@@ -40,13 +40,8 @@ module.exports = (server, app) =>{
 			const fs = require('fs');
 			const util = require('util');
 			const textToSpeech = require('@google-cloud/text-to-speech');
-			const projectId='refreshing-mark-222309';
-			const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-			const client =  new textToSpeech.TextToSpeechClient({
-			projectId:projectId,
-			keyFilename:keyfile
-			});
-
+			const client = new textToSpeech.TextToSpeechClient();
+		
 			//폴더 만들어주기
 			const makeFolder = (dir)=>{  
 			if(!fs.existsSync(dir)){  
@@ -94,13 +89,8 @@ module.exports = (server, app) =>{
 			const fs = require('fs');
 			const util = require('util');
 			const textToSpeech = require('@google-cloud/text-to-speech');
-			const projectId='refreshing-mark-222309';
-			const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-			const client =  new textToSpeech.TextToSpeechClient({
-			projectId:projectId,
-			keyFilename:keyfile
-			});
-
+			const client = new textToSpeech.TextToSpeechClient();
+			
 			//폴더 만들어주기
 			const makeFolder = (dir)=>{  
 				if(!fs.existsSync(dir)){  
@@ -190,14 +180,8 @@ module.exports = (server, app) =>{
 								const fs = require('fs');
 								const util = require('util');
 								const textToSpeech = require('@google-cloud/text-to-speech');
-							
-								const projectId='refreshing-mark-222309';
-								const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-
-								const client =  new textToSpeech.TextToSpeechClient({
-												projectId:projectId,
-												keyFilename:keyfile
-								});
+								const client = new textToSpeech.TextToSpeechClient();
+								
 
 								//폴더 만들어주기
 								const makeFolder = (dir)=>{  
@@ -288,13 +272,7 @@ module.exports = (server, app) =>{
 			    const fs = require('fs');
 			    const util = require('util');
 			    const textToSpeech = require('@google-cloud/text-to-speech');
-			
-			    const projectId='refreshing-mark-222309';
-			    const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-			    const client =  new textToSpeech.TextToSpeechClient({
-				projectId:projectId,
-				keyFilename:keyfile
-			    });
+				const client = new textToSpeech.TextToSpeechClient();
 
 			    //폴더 만들어주기
 			    const makeFolder = (dir)=>{  
@@ -477,13 +455,7 @@ module.exports = (server, app) =>{
             const fs = require('fs');
             const util = require('util');
             const textToSpeech = require('@google-cloud/text-to-speech');
-        
-            const projectId='refreshing-mark-222309';
-            const keyfile='./My First Project-a0591a3611f6.json'; //---1) 
-            const client =  new textToSpeech.TextToSpeechClient({
-                projectId:projectId,
-                keyFilename:keyfile
-            });
+			const client = new textToSpeech.TextToSpeechClient();
 
             //폴더 만들어주기
             const makeFolder = (dir)=>{  
