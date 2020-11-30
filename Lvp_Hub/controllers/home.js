@@ -18,33 +18,96 @@ module.exports = {
 		 *             2. db collection 맞춰주기, 각 쇼핑몰별로(search_category) */ 
 		mongoose = require('mongoose');
 		/*db 이름 바꾸는 부분*/
-		mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority',
+		
+		function connect(){
+			mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority',
 			{ useNewUrlParser : true, useUnifiedTopology : true },
 			(err) => {
 				if(err) return console.error(err);
 			});
 
+		}
+		
+		var checked = new Array();
+
 		function getData(category, word){
 			return new Promise((resolve, reject) => {
-				mongoose.connection.on('open', function() {
+				connect();
+			
+				mongoose.connection.on('open', async function() {
 					console.log('Mongoose connected.');
 					console.log(word);
 
 					/*collection 바꾸는 부분*/
-connection.db.collection("productData", function(err, collection){
-						
-						collection.find({"search_category": {$in :category}, "search_word":word}).sort({price : 1}).toArray(function(err, data){
-							console.log(data); // it will print your collection data
-							resolve(data);
-						})
-
-					});
+					
+					async function test(){
+						for(var i = 0 ; category!=null && i < category.length ; i++){
+							connection.db.collection("productData", function(err, collection){
+	
+								var cat = category[i];
+	
+								collection.find({"search_category": category[i], "search_word":word}).toArray( function(err, data){
+	
+									//console.log("yae~", data); // it will print your collection data
+									if(data === undefined || data.length == []){
+										checked.push(cat);
+										//console.log("checked : ", cat);
+									}
+									
+								})
+							});
+						}
+					}
+					test()
+					setTimeout(resolve, 3500)
 				});
 			});
 		}
-		/*가져온 디비 데이터*/
-		let db_data = await getData(search_category, search_word);
+
+		function getData2(category, word){
+			return new Promise((resolve, reject) => {
+				connect();
+
+				mongoose.connection.on('open', function() {
+					console.log('Mongoose connected.');
+					console.log(word);
+					/*collection 바꾸는 부분*/
+
+					connection.db.collection("productData", function(err, collection){
+						
+						collection.find({"search_category": {$in : category}, "search_word":word}).sort({price : 1}).toArray(function(err, data){
+							resolve(data);
+						})
+						
+					});
+					
+					
+				});
+			});
+		}
+		
+		await getData(search_category, search_word);
+		
+		if(checked !=null && checked.length<=3){
+		for(var j = 0 ; checked!=null && j < checked.length ; j++){
+
+			await crawl_search(search_word, checked[j]);
+			}
+		}else if(checked !=null){
+		var tmp =""
+		for(var j = 0 ; j < checked!=null &&j< checked.length ; j++){
+
+			tmp = tmp+checked[j];
+		}
+			await crawl_search(search_word, tmp);
+		}
 		mongoose.connection.close();
+		
+		let db_data = await getData2(search_category, search_word);
+		mongoose.connection.close();
+		
+		data_send(db_data);
+		
 		async function data_send(db_data) {
 			/*yae*/
 			var shopping_json = db_data;
@@ -58,6 +121,7 @@ connection.db.collection("productData", function(err, collection){
 
 		async function crawl_search(search_word, search_category) {
 
+			console.log(search_category)
 			const {PythonShell} = require('python-shell');
 
 			let options = {
@@ -97,31 +161,8 @@ connection.db.collection("productData", function(err, collection){
 			};
 			//await mall_crawl();
 	//joys adjusted : check plz
-			if (search_category.length<=3){
-			for (var i = 0; i< search_category.length; i++) {
-				var mall;
-				if (search_category[i] == 'emart') {
-					
-					mall = './crawling_server/crawler_emart.py';
-				} else if (search_category[i] == 'lotte') {
-					mall = './crawling_server/crawler_lotte.py';
-				} else if (search_category[i] == 'gmarket') {
-					mall = './crawling_server/crawler_gmarket.py';
-				}
-				else {
 
-					continue;
-				}
-				try{
-					await mall_crawl(mall, search_category[i],search_word);
-				} catch{
-				
-						console.log('error running python code')
-				}
-			}
-		}else{
 			var mall;
-
 			if (search_category == 'emart') {
 				mall = './crawling_server/crawler_emart.py';
 			} else if (search_category == 'lotte') {
@@ -134,7 +175,7 @@ connection.db.collection("productData", function(err, collection){
 				mall = './crawling_server/crawler_lotte.py';
 			}
 			await mall_crawl(mall, search_category,search_word);
-		}
+			
 
 			function sort_by_key(array, key)
 			{
@@ -154,6 +195,7 @@ connection.db.collection("productData", function(err, collection){
 					return result;
 				}, {});
 			}*/
+			/*
 			function send_render_c(src){
 
 				//sorting continue...
@@ -162,8 +204,9 @@ connection.db.collection("productData", function(err, collection){
 
 			}
 			await send_render_c(shopping_json);
+			*/
 		}
-
+		/*
 		if (db_data ===undefined || db_data.length === 0) {
 
 			crawl_search(search_word,search_category);
@@ -171,6 +214,7 @@ connection.db.collection("productData", function(err, collection){
 		else {
 			data_send(db_data);
 		}
+		*/
 	}
 };
 
