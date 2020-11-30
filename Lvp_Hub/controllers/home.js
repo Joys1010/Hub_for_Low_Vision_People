@@ -65,8 +65,6 @@ module.exports = {
 									
 								})
 							});
-
-					  
 					  }
 					}
 					test()
@@ -84,6 +82,19 @@ module.exports = {
 					console.log(word);
 					/*collection 바꾸는 부분*/
 
+				 	if(category != null && category.length>3){
+					  	connection.db.collection("productData", function(err, collection){
+								var cat = category;
+								collection.find({"search_category": cat, "search_word":word}).toArray( function(err, data){
+	
+								resolve(data);
+									
+								})
+							});
+					  }
+
+
+					else if(category != null && category.length <=3){
 					connection.db.collection("productData", function(err, collection){
 						
 						collection.find({"search_category": {$in : category}, "search_word":word}).sort({price : 1}).toArray(function(err, data){
@@ -91,6 +102,8 @@ module.exports = {
 						})
 						
 					});
+					
+					}
 					
 					
 				});
@@ -105,7 +118,7 @@ module.exports = {
 			await crawl_search(search_word, checked[j]);
 			}
 		}else if(checked !=null){
-		var tmp =""
+		var tmp ="";
 		for(var j = 0 ; j < checked!=null &&j< checked.length ; j++){
 
 			tmp = tmp+checked[j];
