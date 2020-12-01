@@ -10,6 +10,21 @@ var index = 0;
 var socket = io();
 var flag = false;
 
+function play_form(){
+	aud.playbackRate=0.8
+    var playPromise = aud.play();
+    if (playPromise !== undefined) {
+            playPromise.then(function() {
+                                                                    // Automatic playback started!
+            }).catch(function(error) {
+                                                                    // Automatic playback failed.
+                                                                    // Show a UI element to let the user manually start playback.
+            });
+        }
+}
+
+
+
 $('#ocr_select').click((e) => { 
 	aud.setAttribute("src", "./wait_capture.mp3");
 	play_form();
@@ -121,7 +136,8 @@ $('#ocr_all').on('click', function(){
 	    var data = {count : count, img_url: img, product_name: name};
 	    socket.emit('ocrSource', data);
 	    aud.setAttribute("src",'./wait_ocr.mp3');
-	   aud.play();
+	play_form();
+	 //  aud.play();
 	});
 
 socket.on('arrCount', data=>{
@@ -193,19 +209,6 @@ function speak_crawling(){
     aud.setAttribute("src","./crawling.mp3");
     play_form();
 }
-function play_form(){
-	aud.playbackRate=0.8
-    var playPromise = aud.play();
-    if (playPromise !== undefined) {
-            playPromise.then(function() {
-                                                                    // Automatic playback started!
-            }).catch(function(error) {
-                                                                    // Automatic playback failed.
-                                                                    // Show a UI element to let the user manually start playback.
-            });
-        }
-}
-
 
 /*function tts_btn(){
     btn_click = !btn_click;

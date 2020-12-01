@@ -48,6 +48,10 @@ def crawler_gmarket(word):
             if img is None :
                 continue
             title =tmp_soup.select_one("div.box__item-container > div.box__information > div.box__information-major > div.box__item-title > span > a > span.text__item")
+
+            if title is None or len(title)==0:
+                return []
+   
             price = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-price > div.box__price-seller > strong')
             url = tmp_soup.select_one('div.box__information > div.box__information-major > div.box__item-title > span > a')
             review = tmp_soup.select_one('div.box__information > div.box__information-score > ul > li.list-item.list-item__pay-count > span.text')

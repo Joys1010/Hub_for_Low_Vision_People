@@ -8,6 +8,7 @@
   "dependencies": {
     "@google-cloud/text-to-speech": "^3.1.2",
     "@google-cloud/vision": "^2.1.2",
+    "alert": "^5.0.6",
     "async": "^3.2.0",
     "async-mutex": "^0.2.4",
     "cookie-parser": "~1.4.4",

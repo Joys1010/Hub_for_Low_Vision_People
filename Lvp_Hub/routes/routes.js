@@ -21,5 +21,5 @@ router.post('/detail', detail.passURL);
 
 router.post('/search',home.searching);
 
-
+router.get('/error', home.error);
 module.exports =router;

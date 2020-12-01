@@ -37,6 +37,10 @@ def crawler_lotte(word):
     for soup in info:
         tmp_soup = BeautifulSoup(soup.get_attribute('innerHTML'), 'lxml') 
         title =  tmp_soup.select_one(' a > div > div:nth-child(1) >div.srchProductUnitTitle')
+
+        if title is None or len(title)==0:
+            return []
+   
         price = tmp_soup.select_one("a  div div:nth-child(2)  div  span.srchCurrentPrice ")
         url =  tmp_soup.select(" a ")
         img = tmp_soup.select(" div a div.srchThumbImageWrap img")

@@ -86,9 +86,8 @@ module.exports = {
 					  	connection.db.collection("productData", function(err, collection){
 								var cat = category;
 								collection.find({"search_category": cat, "search_word":word}).toArray( function(err, data){
-	
-								resolve(data);
-									
+									resolve(data);
+
 								})
 							});
 					  }
@@ -98,6 +97,7 @@ module.exports = {
 					connection.db.collection("productData", function(err, collection){
 						
 						collection.find({"search_category": {$in : category}, "search_word":word}).sort({price : 1}).toArray(function(err, data){
+							//console.log(data)
 							resolve(data);
 						})
 						
@@ -114,8 +114,9 @@ module.exports = {
 		
 		if(checked !=null && checked.length<=3){
 		for(var j = 0 ; checked!=null && j < checked.length ; j++){
-
+			console.log("start")
 			await crawl_search(search_word, checked[j]);
+			console.log("end")
 			}
 		}else if(checked !=null){
 		var tmp ="";
@@ -128,6 +129,8 @@ module.exports = {
 		mongoose.connection.close();
 		
 		let db_data = await getData2(search_category, search_word);
+		console.log(db_data)
+
 		mongoose.connection.close();
 		
 		data_send(db_data);
@@ -136,10 +139,14 @@ module.exports = {
 			/*yae*/
 			var shopping_json = db_data;
 			/*data 넣기*/
+
 			function send_render(src){
-				res.render('../views/search.ejs', {data : src});
+				if(src === undefined || src.length === 0){
+					res.redirect('/error');
+				}else res.render('../views/search.ejs', {data : src});
 				
 			}
+
 			await send_render(shopping_json);
 		}
 
@@ -239,6 +246,9 @@ module.exports = {
 			data_send(db_data);
 		}
 		*/
+	},
+	error : function(req,res){
+		res.render('../views/nosearch.ejs')
 	}
 };
 

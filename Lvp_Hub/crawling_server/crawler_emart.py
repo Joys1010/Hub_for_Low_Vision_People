@@ -29,6 +29,10 @@ def crawler_emart(word):
         tmp_soup = cunit_info[i] 
         
         title =  tmp_soup.select_one(' div.cunit_info > div.cunit_md.notranslate > div > a > em.tx_ko').get_text()
+
+        if title is None or len(title)==0:
+            return []
+   
         price = tmp_soup.select_one(" div.cunit_info > div.cunit_price.notranslate > div.opt_price > em  ")
         review = tmp_soup.select_one(" div.cunit_info > div.cunit_app > div > span > em")
         if review is not None :
@@ -57,9 +61,6 @@ def crawler_emart(word):
         if i >= MAX_COUNT :
             break
     
-    if len(title)==0:
-        return []
-   
     #print(round(time.time()-start,3))
     return output
 
