@@ -10,13 +10,10 @@ module.exports = (server, app) =>{
     const io = SocketIO(server);
 	app.set('io', io);
 	
-	
     io.on('connection', socket=>{
 
 	   socket.on('imgSrc', async function(imgSrc){
 
-		console.log("test button clicked");
-        //console.log(req.body.imgSrc);
         var base64Data = imgSrc;
         
         require("fs").writeFile("./captured/out.png", base64Data, 'base64', function(err) {
@@ -35,13 +32,13 @@ module.exports = (server, app) =>{
 					
 
         if(detections[0] != undefined){
-            //console.log(detections[0]['description']);
+            console.log(detections[0]['description']);
             var ttsData = { option: "capture", contents: detections[0]['description'] };
 			const fs = require('fs');
 			const util = require('util');
 			const textToSpeech = require('@google-cloud/text-to-speech');
+
 			const client = new textToSpeech.TextToSpeechClient();
-		
 			//폴더 만들어주기
 			const makeFolder = (dir)=>{  
 			if(!fs.existsSync(dir)){  
@@ -75,6 +72,7 @@ module.exports = (server, app) =>{
 				await w_File(path, response.audioContent, 'binary');
 			
 			}catch(err){
+				console.log(err);
 			return;
 			}
 			socket.emit('captureAudioSrc', path);

@@ -1,3 +1,13 @@
 *.swp
 *.swo
 
+# MP3, image file
+captured/*
+speaking/capture/*
+speaking/search/*
+speaking/detail/*
+controllers/python/output/*
+
+# config file
+config/
+.env

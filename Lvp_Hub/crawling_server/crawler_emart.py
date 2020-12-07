@@ -13,7 +13,11 @@ import requests
 import pymongo 
 import dns
 
-client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
+from dotenv import load_dotenv
+load_dotenv(dotenv_path='../config')
+client = pymongo.MongoClient(os.getenv("DB_CONNECT"))
+
+#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 MAX_COUNT = 30
 db = client.LVP_HUB
 emart_db = db.productData

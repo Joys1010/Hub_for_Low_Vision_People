@@ -15,8 +15,8 @@ def crawler_detail_gmarket(url):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    #driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
-    driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
+    driver = webdriver.Chrome('./crawling_server/chromedriver',options=chrome_options) 
+    #driver = webdriver.Chrome(executable_path="/home/ubuntu/Hub_for_Low_Vision_People/Lvp_Hub/crawling_server/chromedriver",options=chrome_options) # 설치 폴더에 주의합니다. 
     driver.get(url) 
     time.sleep(3) 
     ##container > div.item-topinfowrap > div.thumb-gallery.uxecarousel.alone > div.box__viewer-container > ul > li.on > a > img

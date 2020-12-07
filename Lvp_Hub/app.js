@@ -1,9 +1,11 @@
+const dotenv = require('dotenv')
+dotenv.config()
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
 var proxy = require('html2canvas-proxy');
 
 var schedule = require("node-schedule");

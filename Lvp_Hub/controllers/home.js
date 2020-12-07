@@ -7,20 +7,18 @@ module.exports = {
 		res.render('../views/detail.ejs');
 	},
 	searching : async function(req,res){
+		const dotenv = require("dotenv")
+		dotenv.config()
 
 		var search_category = req.body.search_category;
 		var search_word = req.body.search_word;
 		var ret = [];
 		console.log(req.body)
 
-		/*yae 여기 나중에 정식db에서 가져오고 그래야함! */
-		/* 1. url 속 db 이름 바꾸기
-		 *             2. db collection 맞춰주기, 각 쇼핑몰별로(search_category) */ 
 		mongoose = require('mongoose');
-		/*db 이름 바꾸는 부분*/
-		
+
 		function connect(){
-			mongoose.connect('mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority',
+			mongoose.connect(process.env.DB_CONNECT,
 			{ useNewUrlParser : true, useUnifiedTopology : true },
 			(err) => {
 				if(err) return console.error(err);
@@ -85,13 +83,12 @@ module.exports = {
 				 	if(category != null && category.length>3){
 					  	connection.db.collection("productData", function(err, collection){
 								var cat = category;
-								collection.find({"search_category": cat, "search_word":word}).toArray( function(err, data){
+								collection.find({"search_category": cat, "search_word":word}).sort({price : 1}).toArray( function(err, data){
 									resolve(data);
 
 								})
 							});
 					  }
-
 
 					else if(category != null && category.length <=3){
 					connection.db.collection("productData", function(err, collection){
@@ -129,7 +126,7 @@ module.exports = {
 		mongoose.connection.close();
 		
 		let db_data = await getData2(search_category, search_word);
-		console.log(db_data)
+		//console.log(db_data)
 
 		mongoose.connection.close();
 		
