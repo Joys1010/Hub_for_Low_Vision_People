@@ -11,6 +11,9 @@ controllers/python/output/**
 #DS.Store file
 .DS_Store
 
+#log
+npm-debug.log
+
 # config file
 config/
 .env

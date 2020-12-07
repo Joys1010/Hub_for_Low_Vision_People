@@ -7,16 +7,15 @@ import sys
 import re
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-#chrome driver & DB ㄷㅏ 주석차리함 
+
 #DB
 import pymongo 
 import dns
 
 from dotenv import load_dotenv
-load_dotenv(dotenv_path='../config')
+load_dotenv()
 client = pymongo.MongoClient(os.getenv("DB_CONNECT"))
 
-#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 db = client.LVP_HUB
 lotte_db = db.productData
 MAX_COUNT = 30

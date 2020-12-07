@@ -1,5 +1,5 @@
 #이마트 검색
-#chrome driver & DB ㄷㅏ 주석차리함 
+
 import urllib 
 from bs4 import BeautifulSoup
 import time
@@ -14,10 +14,9 @@ import pymongo
 import dns
 
 from dotenv import load_dotenv
-load_dotenv(dotenv_path='../config')
+load_dotenv()
 client = pymongo.MongoClient(os.getenv("DB_CONNECT"))
 
-#client = pymongo.MongoClient("mongodb+srv://yaewon:yaewon@testcluster.hft0m.mongodb.net/LVP_HUB?retryWrites=true&w=majority")
 MAX_COUNT = 30
 db = client.LVP_HUB
 emart_db = db.productData
