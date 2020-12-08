@@ -49,3 +49,12 @@ $ sudo apt-get install chrominum-drvier
 # Lvp_Hub/
 $ npm start
 ```
+
+## Warning
+If you don't have folders list below
+- /captured
+- /speaking/search
+- /speaking/detail
+- /speaking/capture
+- /controllers/python/output
+## You have to make these folders, thank you!
