@@ -2,11 +2,11 @@
 *.swo
 
 # MP3, image file
-captured/**
-speaking/capture/**
-speaking/search/**
-speaking/detail/**
-controllers/python/output/**
+#captured/**
+#speaking/capture/**
+#speaking/search/**
+#speaking/detail/**
+#controllers/python/output/**
 
 #DS.Store file
 .DS_Store
