@@ -22,7 +22,7 @@
 ### 1. Make an .env file
 
 ```bash
-# .env 
+# Lvp_Hub/.env 
 GOOGLE_APPLICATION_CREDENTIALS  = 'location of Google API key file'
 DB_CONNECT = 'URL of connecting MongoDB'
 ```
