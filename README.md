@@ -29,9 +29,21 @@ DB_CONNECT = 'URL of connecting MongoDB'
 
 ### 2. Install python3 pip3 packages
 
-- package list ( from 쩡 )
+- selenium
+- bs4
+- pandas
+- webdriver_manager
+- lxml
+- pymongo
+- scikit-build
+- opencv-python
 
-### 3. Get started!
+### 3. Install chrome-driver by your OS for crawling 
+```bash
+$ sudo apt-get install chrominum-drvier
+```
+
+### 4. Get started!
 
 ```bash
 # Lvp_Hub/
